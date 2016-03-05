@@ -6,5 +6,6 @@
         "stopBits": 1
     },
     "startCharacter": "/",
-    "stopCharacter": "!"
+    "stopCharacter": "!",
+    "defaultPort": "/dev/ttyUSB0"
 }
