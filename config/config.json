@@ -1,0 +1,10 @@
+{
+    "serialPort": {
+        "baudrate": 115200,
+        "parity": "none",
+        "dataBits": 8,
+        "stopBits": 1
+    },
+    "startCharacter": "/",
+    "stopCharacter": "!"
+}
