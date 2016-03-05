@@ -5,9 +5,7 @@ var p1Reader = new P1Reader('/dev/ttyUSB0');
 
 p1Reader.on('reading', function(data) {
     console.log('Reading received: currently consuming ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
-
-
-    console.log(JSON.stringify(data, false, 4));
+    
     // Write electricity totals and actual value to CSV
     var csvOutput = '' +
         data.timestamp + ';' +

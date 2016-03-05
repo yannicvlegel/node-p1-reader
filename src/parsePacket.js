@@ -5,13 +5,55 @@
  */
 function parsePacket ( packet ) {
     var lines = packet.split("\r\n");
-    var parsedPacket = {};
-
-    parsedPacket.electricity            = {};
-    parsedPacket.electricity.received   = {};
-    parsedPacket.electricity.delivered  = {};
-    parsedPacket.gas                    = {};
-    parsedPacket.meterType              = lines[ 0 ].substring( 1 );
+    var parsedPacket = {
+        meterType: lines[ 0 ].substring( 1 ),
+        version: null,
+        timestamp: null,
+        equipmentId: null,
+        electricity: {
+            received: {
+                tariff1: {
+                    reading: null,
+                    unit: null
+                },
+                tariff2: {
+                    reading: null,
+                    unit: null
+                },
+                actual: {
+                    reading: null,
+                    unit: null
+                }
+            },
+            delivered: {
+                tariff1: {
+                    reading: null,
+                    unit: null
+                },
+                tariff2: {
+                    reading: null,
+                    unit: null
+                },
+                actual: {
+                    reading: null,
+                    unit: null
+                }
+            },
+            tariffIndicator: null,
+            threshold: null,
+            switchPosition: null,
+            numberOfPowerFailures: null,
+            numberOfLongPowerFailures: null,
+            longPowerFailureLog: null
+        },
+        gas: {
+            equipmentId: null,
+            timestamp: null,
+            reading: null,
+            unit: null,
+            valvePosition: null
+        }
+    };
 
     // Start parsing at line 3 since first two lines contain the header and an empty row
     for ( var i = 2; i < lines.length; i++ ) {
@@ -32,25 +74,21 @@ function parsePacket ( packet ) {
                     break;
 
                 case "1-0:1.8.1":
-                    parsedPacket.electricity.received.tariff1 = {};
                     parsedPacket.electricity.received.tariff1.reading = parseFloat( line.value );
                     parsedPacket.electricity.received.tariff1.unit    = line.unit;
                     break;
 
                 case "1-0:1.8.2":
-                    parsedPacket.electricity.received.tariff2 = {};
                     parsedPacket.electricity.received.tariff2.reading = parseFloat( line.value );
                     parsedPacket.electricity.received.tariff2.unit    = line.unit;
                     break;
 
                 case "1-0:2.8.1":
-                    parsedPacket.electricity.delivered.tariff1 = {};
                     parsedPacket.electricity.delivered.tariff1.reading = parseFloat( line.value );
                     parsedPacket.electricity.delivered.tariff1.unit    = line.unit;
                     break;
 
                 case "1-0:2.8.2":
-                    parsedPacket.electricity.delivered.tariff2 = {};
                     parsedPacket.electricity.delivered.tariff2.reading = parseFloat( line.value );
                     parsedPacket.electricity.delivered.tariff2.unit    = line.unit;
                     break;
@@ -60,13 +98,11 @@ function parsePacket ( packet ) {
                     break;
 
                 case "1-0:1.7.0":
-                    parsedPacket.electricity.received.actual = {};
                     parsedPacket.electricity.received.actual.reading = parseFloat( line.value );
                     parsedPacket.electricity.received.actual.unit    = line.unit;
                     break;
 
                 case "1-0:2.7.0":
-                    parsedPacket.electricity.delivered.actual = {};
                     parsedPacket.electricity.delivered.actual.reading = parseFloat( line.value );
                     parsedPacket.electricity.delivered.actual.unit    = line.unit;
                     break;
