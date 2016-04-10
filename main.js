@@ -7,6 +7,10 @@ var parsePacket = require('./src/parsePacket');
 var config = require('./config/config.json');
 
 function P1Reader(port, options) {
+    if (!options) {
+        options = {};
+    }
+
     EventEmitter.call(this);
 
     var self = this;
