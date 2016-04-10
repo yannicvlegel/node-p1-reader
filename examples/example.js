@@ -11,7 +11,12 @@ p1Reader.on('reading', function(data) {
         data.timestamp + ';' +
         data.electricity.received.tariff1.reading + ';' +
         data.electricity.received.tariff2.reading + ';' +
-        data.electricity.received.actual.reading + '\n';
+        data.electricity.received.actual.reading + ';' +
+        data.electricity.tariffIndicator + ';' +
+        data.electricity.numberOfPowerFailures + ';' +
+        data.electricity.numberOfLongPowerFailures + ';' +
+        data.gas.timestamp + ';' +
+        data.gas.reading + '\n';
 
     fs.appendFile('p1-reader-log.csv', csvOutput);
 });

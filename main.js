@@ -1,11 +1,12 @@
 var EventEmitter = require('events');
 var util = require('util');
+var fs = require('fs');
 var SerialPort = require('serialport').SerialPort;
 
 var parsePacket = require('./src/parsePacket');
 var config = require('./config/config.json');
 
-function P1Reader(port) {
+function P1Reader(port, options) {
     EventEmitter.call(this);
 
     var self = this;
@@ -27,10 +28,29 @@ function P1Reader(port) {
             // Package is complete if the start- and stop character are received
             if (startCharPos >= 0 && endCharPos >= 0) {
                 var packet = received.substr(startCharPos, endCharPos - startCharPos);
+                var parsedPacket = parsePacket(packet);
 
                 received = '';
 
-                self.emit('reading', parsePacket(packet));
+                // Write package to log if debug mode is active
+                if (options.debug) {
+                    var now = new Date().toUTCString();
+                    fs.appendFile(config.debugRawDataFile, 'Package received at ' + now + ':\n' + packet + '\n\n', function (err) {
+                        if (err) {
+                            console.error('Could not write raw package to ' + config.debugRawDataFile);
+                        }
+                    });
+
+                    fs.appendFile(config.debugParsedDataFile, 'Package received at ' + now + ':\n' + JSON.stringify(parsedPacket, true, 4) + '\n\n', function (err) {
+                        if (err) {
+                            console.error('Could not write parsed package to ' + config.debugParsedDataFile);
+                        }
+                    });
+                }
+
+                self.emit('reading', parsedPacket);
+
+                // TODO: create separate events for gas, electricity, etc
             }
         });
     });
