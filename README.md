@@ -87,3 +87,14 @@ The `reading` event returns the following data structure:
     }
 }
 ```
+
+Debug mode
+==========
+
+In debug mode all raw and parsed packages are written to 2 separate log files (debug-data-raw.log and debug-data-parsed.log) and stored in the directory from which the module was triggered.
+
+Provide the `debug` option parameter to run the module in debug mode:
+
+```
+var p1Reader = new P1Reader('/dev/ttyUSB0', {debug: true});
+```
