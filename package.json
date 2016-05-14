@@ -4,12 +4,12 @@
     "description": "Node.js package for reading and parsing data from the P1 port of a Dutch Smart Meter",
     "main": "main.js",
     "author": "Ruud Verheijden",
-    "license": "MIT License",
+    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "https://github.com/RuudV1/node-p1-reader.git"
     },
     "dependencies": {
-        "serialport": "2.0.6"
+        "serialport": "3.1.1"
     }
 }

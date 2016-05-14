@@ -58,7 +58,7 @@ function parsePacket ( packet ) {
     // Start parsing at line 3 since first two lines contain the header and an empty row
     for ( var i = 2; i < lines.length; i++ ) {
         if ( lines[ i ] != "" ) {
-            var line = parseLine( lines[ i ] );
+            var line = _parseLine( lines[ i ] );
 
             switch ( line.obisCode ) {
                 case "1-3:0.2.8":
@@ -66,7 +66,7 @@ function parsePacket ( packet ) {
                     break;
 
                 case "0-0:1.0.0":
-                    parsedPacket.timestamp = parseTimestamp( line.value );
+                    parsedPacket.timestamp = _parseTimestamp( line.value );
                     break;
 
                 case "0-0:96.1.1":
@@ -126,7 +126,7 @@ function parsePacket ( packet ) {
                     break;
 
                 case "1-0:99:97.0":
-                    parsedPacket.electricity.longPowerFailureLog = parsePowerFailureEventLog( line.value );
+                    parsedPacket.electricity.longPowerFailureLog = _parsePowerFailureEventLog( line.value );
                     break;
 
                 // TODO: complete with missing fields
@@ -137,9 +137,9 @@ function parsePacket ( packet ) {
                     break;
 
                 case "0-1:24.2.1":
-                    parsedPacket.gas.timestamp  = parseTimestamp( parseHourlyReading( line.value ).timestamp );
-                    parsedPacket.gas.reading    = parseFloat( parseHourlyReading( line.value ).value );
-                    parsedPacket.gas.unit       = parseHourlyReading( line.value ).unit;
+                    parsedPacket.gas.timestamp  = _parseTimestamp( _parseHourlyReading( line.value ).timestamp );
+                    parsedPacket.gas.reading    = parseFloat( _parseHourlyReading( line.value ).value );
+                    parsedPacket.gas.unit       = _parseHourlyReading( line.value ).unit;
                     break;
 
                 case "0-1:24.4.0":
@@ -148,6 +148,9 @@ function parsePacket ( packet ) {
 
                 //TODO: complete with missing fields
 
+                default:
+                    console.error( 'Unable to parse line: ' + lines[ i ] );
+                    break;
             }
         }
     }
@@ -161,7 +164,7 @@ function parsePacket ( packet ) {
  *
  * @param line : Single line of format: obisCode(value*unit), example: 1-0:2.8.1(123456.789*kWh)
 */
-function parseLine ( line ) {
+function _parseLine ( line ) {
     var output = {};
     var split = line.split( /\((.+)?/ ); // Split only on first occurence of "("
 
@@ -186,7 +189,7 @@ function parseLine ( line ) {
  *
  * @param timestamp : Timestamp of format: YYMMDDhhmmssX
  */
-function parseTimestamp ( timestamp ) {
+function _parseTimestamp ( timestamp ) {
     var parsedTimestamp = new Date();
 
     parsedTimestamp.setFullYear(     parseInt( timestamp.substring( 0, 2 ) ) + 2000  );
@@ -205,8 +208,10 @@ function parseTimestamp ( timestamp ) {
  *
  * @param log : Power failure event log of format: (value)(value)(value)...
  */
-function parsePowerFailureEventLog ( log ) {
+function _parsePowerFailureEventLog ( log ) {
     // TODO: parse event log
+
+    console.log('LOG:',log);
 
     return log;
 }
@@ -216,13 +221,20 @@ function parsePowerFailureEventLog ( log ) {
  *
  * @param reading : Reading of format: (value)(value)
  */
-function parseHourlyReading ( reading ) {
-    var output = {};
+function _parseHourlyReading ( reading ) {
+    var output = {
+        timestamp: null,
+        value: null,
+        unit: null
+    };
+
     var split = reading.split( ")(" );
 
-    output.timestamp = split[ 0 ];
-    output.value     = split[ 1 ].split( "*" )[ 0 ];
-    output.unit      = split[ 1 ].split( "*" )[ 1 ];
+    if ( split[ 0 ] && split[ 1 ] ) {
+        output.timestamp = split[ 0 ];
+        output.value     = split[ 1 ].split( "*" )[ 0 ];
+        output.unit      = split[ 1 ].split( "*" )[ 1 ];
+    }
 
     return output;
 }
