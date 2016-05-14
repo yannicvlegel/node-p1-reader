@@ -52,7 +52,11 @@ function P1Reader(port, options) {
                     });
                 }
 
-                self.emit('reading', parsedPacket);
+                if (parsedPacket.timestamp !== null) {
+                    self.emit('reading', parsedPacket);
+                } else {
+                    console.error('Invalid reading received, event not emitted.');
+                }
 
                 // TODO: create separate events for gas, electricity, etc
             }

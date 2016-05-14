@@ -164,15 +164,18 @@ function parsePacket ( packet ) {
 function parseLine ( line ) {
     var output = {};
     var split = line.split( /\((.+)?/ ); // Split only on first occurence of "("
-    var value = split[ 1 ].substring( 0, split[ 1 ].length - 1 );
 
-    output.obisCode = split[ 0 ];
+    if ( split[ 0 ] && split[ 1 ] ) {
+        var value = split[ 1 ].substring( 0, split[ 1 ].length - 1 );
 
-    if ( value.indexOf( "*" ) > -1 && value.indexOf( ")(" ) === -1 ) {
-        output.value = value.split( "*" )[ 0 ];
-        output.unit  = value.split( "*" )[ 1 ];
-    } else {
-        output.value = value;
+        output.obisCode = split[ 0 ];
+
+        if ( value.indexOf( "*" ) > -1 && value.indexOf( ")(" ) === -1 ) {
+            output.value = value.split( "*" )[ 0 ];
+            output.unit  = value.split( "*" )[ 1 ];
+        } else {
+            output.value = value;
+        }
     }
 
     return output;
@@ -186,19 +189,13 @@ function parseLine ( line ) {
 function parseTimestamp ( timestamp ) {
     var parsedTimestamp = new Date();
 
-    parsedTimestamp.setUTCFullYear(     parseInt( timestamp.substring( 0, 2 ) ) + 2000  );
-    parsedTimestamp.setUTCMonth(        parseInt( timestamp.substring( 2, 4 ) ) - 1     );
-    parsedTimestamp.setUTCDate(         timestamp.substring( 4, 6 )                     );
-
-    if ( timestamp.substring( 12 ) === "S" ) {
-        parsedTimestamp.setUTCHours(    timestamp.substring( 6, 8 ) + 1                 );
-    } else {
-        parsedTimestamp.setUTCHours(    timestamp.substring( 6, 8 )                     );
-    }
-
-    parsedTimestamp.setUTCMinutes(      timestamp.substring( 8, 10 )                    );
-    parsedTimestamp.setUTCSeconds(      timestamp.substring( 10, 12 )                   );
-    parsedTimestamp.setUTCMilliseconds( 0                                               );
+    parsedTimestamp.setFullYear(     parseInt( timestamp.substring( 0, 2 ) ) + 2000  );
+    parsedTimestamp.setMonth(        parseInt( timestamp.substring( 2, 4 ) ) - 1     );
+    parsedTimestamp.setDate(         parseInt( timestamp.substring( 4, 6 ) )         );
+    parsedTimestamp.setHours(        parseInt( timestamp.substring( 6, 8 ) )         );
+    parsedTimestamp.setMinutes(      parseInt( timestamp.substring( 8, 10 ) )        );
+    parsedTimestamp.setSeconds(      parseInt( timestamp.substring( 10, 12 ) )       );
+    parsedTimestamp.setMilliseconds( 0                                               );
 
     return parsedTimestamp.toISOString();
 }
