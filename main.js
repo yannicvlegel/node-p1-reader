@@ -4,12 +4,15 @@ var fs = require('fs');
 var SerialPort = require('serialport').SerialPort;
 
 var parsePacket = require('./src/parsePacket');
+var debug = require('./src/debug');
 var config = require('./config/config.json');
 
-function P1Reader(port, options) {
+function P1Reader(options) {
     if (!options) {
         options = {};
     }
+
+    var port = '/dev/ttyUSB0';
 
     EventEmitter.call(this);
 
@@ -36,20 +39,9 @@ function P1Reader(port, options) {
 
                 received = '';
 
-                // Write package to log if debug mode is active
+                // Write packet to log if debug mode is active
                 if (options.debug) {
-                    var now = new Date().toUTCString();
-                    fs.appendFile(config.debugRawDataFile, 'Package received at ' + now + ':\n' + packet + '\n\n', function (err) {
-                        if (err) {
-                            console.error('Could not write raw package to ' + config.debugRawDataFile);
-                        }
-                    });
-
-                    fs.appendFile(config.debugParsedDataFile, 'Package received at ' + now + ':\n' + JSON.stringify(parsedPacket, true, 4) + '\n\n', function (err) {
-                        if (err) {
-                            console.error('Could not write parsed package to ' + config.debugParsedDataFile);
-                        }
-                    });
+                    debug.writeToLogFile(packet, parsedPacket);
                 }
 
                 if (parsedPacket.timestamp !== null) {
@@ -57,8 +49,6 @@ function P1Reader(port, options) {
                 } else {
                     console.error('Invalid reading received, event not emitted.');
                 }
-
-                // TODO: create separate events for gas, electricity, etc
             }
         });
     });

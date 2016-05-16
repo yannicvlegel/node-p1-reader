@@ -1,5 +1,5 @@
 var fs = require('fs');
-var config = require('./config/config.json');
+var config = require('../config/config.json');
 
 /**
  * Write raw and parsed data to log file for debugging purposes

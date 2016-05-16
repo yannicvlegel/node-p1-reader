@@ -1,7 +1,7 @@
 var P1Reader = require('../main');
 var fs = require('fs');
 
-var p1Reader = new P1Reader('/dev/ttyUSB0');
+var p1Reader = new P1Reader({debug: true});
 
 p1Reader.on('reading', function(data) {
     console.log('Reading received: currently consuming ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
@@ -28,3 +28,8 @@ p1Reader.on('error', function(data) {
 p1Reader.on('close', function() {
     console.log('Connection closed');
 });
+
+// Handle all uncaught errors without crashing
+process.on('uncaughtException', function(err) {
+    console.error( err );
+})

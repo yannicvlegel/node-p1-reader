@@ -7,7 +7,6 @@
     },
     "startCharacter": "/",
     "stopCharacter": "!",
-    "defaultPort": "/dev/ttyUSB0",
     "debugRawDataFile": "debug-data-raw.log",
     "debugParsedDataFile": "debug-data-parsed.log"
 }
