@@ -1,7 +1,10 @@
 var EventEmitter = require('events');
 var util = require('util');
 var fs = require('fs');
-var SerialPort = require('serialport').SerialPort;
+var serialPort = require('serialport');
+var SerialPort = serialPort.SerialPort;
+
+var serialPortFound = false;
 
 var parsePacket = require('./src/parsePacket');
 var debug = require('./src/debug');
@@ -12,9 +15,18 @@ function P1Reader(options) {
         options = {};
     }
 
+    var self = this;
+
     EventEmitter.call(this);
 
-    _setupSerialConnection(this, options);
+    // Automatically find the correct serial port
+    serialPort.list(function (err, ports) {
+        if ( err ) {
+            throw new Error( 'Serialports could not be listed: ' + err );
+        }
+
+        _setupSerialConnection(self, ports[ ports.length - 1 ].comName, options);
+    });
 }
 
 util.inherits(P1Reader, EventEmitter);
@@ -28,18 +40,18 @@ module.exports = P1Reader;
  * @param self : The 'this'-object of the constructor to emit events on
  * @param options : Options object
  */
-function _setupSerialConnection (self, options) {
-    var port = '/dev/ttyUSB0';
+function _setupSerialConnection (self, port, options) {
+    console.log('Trying to connect to Smart Meter via port: ' + port);
 
     // Open serial port connection
-    var serialPort = new SerialPort(port || config.defaultPort, config.serialPort);
+    var sp = new SerialPort(port || config.defaultPort, config.serialPort);
 
     var received = '';
 
-    serialPort.on('open', function () {
+    sp.on('open', function () {
         console.log('Serial connection established');
 
-        serialPort.on('data', function (data) {
+        sp.on('data', function (data) {
             received += data.toString();
 
             var startCharPos = received.indexOf(config.startCharacter);
@@ -67,11 +79,11 @@ function _setupSerialConnection (self, options) {
         });
     });
 
-    serialPort.on('error', function (error) {
+    sp.on('error', function (error) {
         self.emit('error', error);
     });
 
-    serialPort.on('close', function () {
+    sp.on('close', function () {
         self.emit('close');
     });
 }
