@@ -12,11 +12,24 @@ function P1Reader(options) {
         options = {};
     }
 
-    var port = '/dev/ttyUSB0';
-
     EventEmitter.call(this);
 
-    var self = this;
+    _setupSerialConnection(this, options);
+}
+
+util.inherits(P1Reader, EventEmitter);
+
+module.exports = P1Reader;
+
+
+/**
+ * Setup serial port connection
+ *
+ * @param self : The 'this'-object of the constructor to emit events on
+ * @param options : Options object
+ */
+function _setupSerialConnection (self, options) {
+    var port = '/dev/ttyUSB0';
 
     // Open serial port connection
     var serialPort = new SerialPort(port || config.defaultPort, config.serialPort);
@@ -48,6 +61,7 @@ function P1Reader(options) {
                     self.emit('reading', parsedPacket);
                 } else {
                     console.error('Invalid reading received, event not emitted.');
+                    // TODO: set a limiter on the amount of these errors, restart if it occured 5 times
                 }
             }
         });
@@ -61,7 +75,3 @@ function P1Reader(options) {
         self.emit('close');
     });
 }
-
-util.inherits(P1Reader, EventEmitter);
-
-module.exports = P1Reader;
