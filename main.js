@@ -9,8 +9,8 @@ var debugMode = false;
 var availablePorts = [];
 var constructor;
 
-var parsePacket = require('./src/parsePacket');
-var debug = require('./src/debug');
+var parsePacket = require('./lib/parsePacket');
+var debug = require('./lib/debug');
 var config = require('./config/config.json');
 
 function P1Reader(options) {
