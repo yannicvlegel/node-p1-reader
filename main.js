@@ -5,17 +5,21 @@ var serialPort = require('serialport');
 var SerialPort = serialPort.SerialPort;
 
 var serialPortFound = false;
+var debugMode = false;
+var availablePorts = [];
+var constructor;
 
 var parsePacket = require('./src/parsePacket');
 var debug = require('./src/debug');
 var config = require('./config/config.json');
 
 function P1Reader(options) {
-    if (!options) {
-        options = {};
+    if (options && options.debug) {
+        debugMode = options.debug;
+        console.log('DEBUG MODE ACTIVE');
     }
 
-    var self = this;
+    constructor = this;
 
     EventEmitter.call(this);
 
@@ -25,7 +29,9 @@ function P1Reader(options) {
             throw new Error( 'Serialports could not be listed: ' + err );
         }
 
-        _setupSerialConnection(self, ports[ ports.length - 1 ].comName, options);
+        availablePorts = ports;
+
+        _setupSerialConnection();
     });
 }
 
@@ -36,15 +42,14 @@ module.exports = P1Reader;
 
 /**
  * Setup serial port connection
- *
- * @param self : The 'this'-object of the constructor to emit events on
- * @param options : Options object
  */
-function _setupSerialConnection (self, port, options) {
+function _setupSerialConnection () {
+    var port = availablePorts[ 0 ].comName;
+
     console.log('Trying to connect to Smart Meter via port: ' + port);
 
     // Open serial port connection
-    var sp = new SerialPort(port || config.defaultPort, config.serialPort);
+    var sp = new SerialPort(port, config.serialPort);
 
     var received = '';
 
@@ -64,13 +69,23 @@ function _setupSerialConnection (self, port, options) {
 
                 received = '';
 
+                // Verify if connected to the correct serial port at initialization
+                if (!serialPortFound) {
+                    if (parsedPacket.timestamp !== null) {
+                        console.log('Connection with Smart Meter established');
+                        serialPortFound = true;
+                    } else {
+                        _tryNextSerialPort();
+                    }
+                }
+
                 // Write packet to log if debug mode is active
-                if (options.debug) {
+                if (debugMode) {
                     debug.writeToLogFile(packet, parsedPacket);
                 }
 
                 if (parsedPacket.timestamp !== null) {
-                    self.emit('reading', parsedPacket);
+                    constructor.emit('reading', parsedPacket);
                 } else {
                     console.error('Invalid reading received, event not emitted.');
                     // TODO: set a limiter on the amount of these errors, restart if it occured 5 times
@@ -80,10 +95,29 @@ function _setupSerialConnection (self, port, options) {
     });
 
     sp.on('error', function (error) {
-        self.emit('error', error);
+        // Reject this port if we haven't found the correct port yet
+        if (!serialPortFound) {
+            _tryNextSerialPort();
+        }
+
+        constructor.emit('error', error);
     });
 
     sp.on('close', function () {
-        self.emit('close');
+        constructor.emit('close');
     });
+}
+
+/**
+ * Try the next serial port if available
+ */
+function _tryNextSerialPort() {
+    availablePorts.shift();
+
+    if (availablePorts.length > 0) {
+        console.log('Smart Meter not attached to this port, trying another one...');
+        _setupSerialConnection();
+    } else {
+        throw new Error( 'Could not find an attached Smart Meter');
+    }
 }
