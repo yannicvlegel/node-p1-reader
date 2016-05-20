@@ -11,7 +11,7 @@ The serial connection is automatically opened on initiating the P1-Reader. Use t
 var P1Reader = require('../main');
 var fs = require('fs');
 
-var p1Reader = new P1Reader('/dev/ttyUSB0');
+var p1Reader = new P1Reader();
 
 p1Reader.on('reading', function(data) {
     console.log('Reading received: currently consuming ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
@@ -96,5 +96,5 @@ In debug mode all raw and parsed packages are written to 2 separate log files (d
 Provide the `debug` option parameter to run the module in debug mode:
 
 ```
-var p1Reader = new P1Reader('/dev/ttyUSB0', {debug: true});
+var p1Reader = new P1Reader({debug: true});
 ```
