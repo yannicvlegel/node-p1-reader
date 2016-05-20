@@ -3,10 +3,10 @@
  *
  * @param packet : P1 packet according to DSMR4.0 specification
  */
-function parsePacket ( packet ) {
+function parsePacket(packet) {
     var lines = packet.split("\r\n");
     var parsedPacket = {
-        meterType: lines[ 0 ].substring( 1 ),
+        meterType: lines[0].substring(1),
         version: null,
         timestamp: null,
         equipmentId: null,
@@ -56,17 +56,17 @@ function parsePacket ( packet ) {
     };
 
     // Start parsing at line 3 since first two lines contain the header and an empty row
-    for ( var i = 2; i < lines.length; i++ ) {
-        if ( lines[ i ] != "" ) {
-            var line = _parseLine( lines[ i ] );
+    for (var i = 2; i < lines.length; i++) {
+        if (lines[i] != "") {
+            var line = _parseLine(lines[i]);
 
-            switch ( line.obisCode ) {
+            switch (line.obisCode) {
                 case "1-3:0.2.8":
                     parsedPacket.version = line.value;
                     break;
 
                 case "0-0:1.0.0":
-                    parsedPacket.timestamp = _parseTimestamp( line.value );
+                    parsedPacket.timestamp = _parseTimestamp(line.value);
                     break;
 
                 case "0-0:96.1.1":
@@ -74,43 +74,43 @@ function parsePacket ( packet ) {
                     break;
 
                 case "1-0:1.8.1":
-                    parsedPacket.electricity.received.tariff1.reading = parseFloat( line.value );
-                    parsedPacket.electricity.received.tariff1.unit    = line.unit;
+                    parsedPacket.electricity.received.tariff1.reading = parseFloat(line.value);
+                    parsedPacket.electricity.received.tariff1.unit = line.unit;
                     break;
 
                 case "1-0:1.8.2":
-                    parsedPacket.electricity.received.tariff2.reading = parseFloat( line.value );
-                    parsedPacket.electricity.received.tariff2.unit    = line.unit;
+                    parsedPacket.electricity.received.tariff2.reading = parseFloat(line.value);
+                    parsedPacket.electricity.received.tariff2.unit = line.unit;
                     break;
 
                 case "1-0:2.8.1":
-                    parsedPacket.electricity.delivered.tariff1.reading = parseFloat( line.value );
-                    parsedPacket.electricity.delivered.tariff1.unit    = line.unit;
+                    parsedPacket.electricity.delivered.tariff1.reading = parseFloat(line.value);
+                    parsedPacket.electricity.delivered.tariff1.unit = line.unit;
                     break;
 
                 case "1-0:2.8.2":
-                    parsedPacket.electricity.delivered.tariff2.reading = parseFloat( line.value );
-                    parsedPacket.electricity.delivered.tariff2.unit    = line.unit;
+                    parsedPacket.electricity.delivered.tariff2.reading = parseFloat(line.value);
+                    parsedPacket.electricity.delivered.tariff2.unit = line.unit;
                     break;
 
                 case "0-0:96.14.0":
-                    parsedPacket.electricity.tariffIndicator = parseInt( line.value );
+                    parsedPacket.electricity.tariffIndicator = parseInt(line.value);
                     break;
 
                 case "1-0:1.7.0":
-                    parsedPacket.electricity.received.actual.reading = parseFloat( line.value );
-                    parsedPacket.electricity.received.actual.unit    = line.unit;
+                    parsedPacket.electricity.received.actual.reading = parseFloat(line.value);
+                    parsedPacket.electricity.received.actual.unit = line.unit;
                     break;
 
                 case "1-0:2.7.0":
-                    parsedPacket.electricity.delivered.actual.reading = parseFloat( line.value );
-                    parsedPacket.electricity.delivered.actual.unit    = line.unit;
+                    parsedPacket.electricity.delivered.actual.reading = parseFloat(line.value);
+                    parsedPacket.electricity.delivered.actual.unit = line.unit;
                     break;
 
                 case "0-0:17.0.0":
                     parsedPacket.electricity.threshold = {};
-                    parsedPacket.electricity.threshold.value = parseFloat( line.value );
-                    parsedPacket.electricity.threshold.unit  = line.unit;
+                    parsedPacket.electricity.threshold.value = parseFloat(line.value);
+                    parsedPacket.electricity.threshold.unit = line.unit;
                     break;
 
                 case "0-0:96.3.10":
@@ -118,15 +118,15 @@ function parsePacket ( packet ) {
                     break;
 
                 case "0-0:96.7.21":
-                    parsedPacket.electricity.numberOfPowerFailures = parseInt( line.value );
+                    parsedPacket.electricity.numberOfPowerFailures = parseInt(line.value);
                     break;
 
                 case "0-0:96.7.9":
-                    parsedPacket.electricity.numberOfLongPowerFailures = parseInt( line.value );
+                    parsedPacket.electricity.numberOfLongPowerFailures = parseInt(line.value);
                     break;
 
                 case "1-0:99:97.0":
-                    parsedPacket.electricity.longPowerFailureLog = _parsePowerFailureEventLog( line.value );
+                    parsedPacket.electricity.longPowerFailureLog = _parsePowerFailureEventLog(line.value);
                     break;
 
                 // TODO: complete with missing fields
@@ -137,9 +137,9 @@ function parsePacket ( packet ) {
                     break;
 
                 case "0-1:24.2.1":
-                    parsedPacket.gas.timestamp  = _parseTimestamp( _parseHourlyReading( line.value ).timestamp );
-                    parsedPacket.gas.reading    = parseFloat( _parseHourlyReading( line.value ).value );
-                    parsedPacket.gas.unit       = _parseHourlyReading( line.value ).unit;
+                    parsedPacket.gas.timestamp = _parseTimestamp(_parseHourlyReading(line.value).timestamp);
+                    parsedPacket.gas.reading = parseFloat(_parseHourlyReading(line.value).value);
+                    parsedPacket.gas.unit = _parseHourlyReading(line.value).unit;
                     break;
 
                 case "0-1:24.4.0":
@@ -149,7 +149,7 @@ function parsePacket ( packet ) {
                 //TODO: complete with missing fields
 
                 default:
-                    console.error( 'Unable to parse line: ' + lines[ i ] );
+                    console.error('Unable to parse line: ' + lines[i]);
                     break;
             }
         }
@@ -163,19 +163,19 @@ function parsePacket ( packet ) {
  * Parse a single line of the P1 packet
  *
  * @param line : Single line of format: obisCode(value*unit), example: 1-0:2.8.1(123456.789*kWh)
-*/
-function _parseLine ( line ) {
+ */
+function _parseLine(line) {
     var output = {};
-    var split = line.split( /\((.+)?/ ); // Split only on first occurence of "("
+    var split = line.split(/\((.+)?/); // Split only on first occurence of "("
 
-    if ( split[ 0 ] && split[ 1 ] ) {
-        var value = split[ 1 ].substring( 0, split[ 1 ].length - 1 );
+    if (split[0] && split[1]) {
+        var value = split[1].substring(0, split[1].length - 1);
 
-        output.obisCode = split[ 0 ];
+        output.obisCode = split[0];
 
-        if ( value.indexOf( "*" ) > -1 && value.indexOf( ")(" ) === -1 ) {
-            output.value = value.split( "*" )[ 0 ];
-            output.unit  = value.split( "*" )[ 1 ];
+        if (value.indexOf("*") > -1 && value.indexOf(")(") === -1) {
+            output.value = value.split("*")[0];
+            output.unit = value.split("*")[1];
         } else {
             output.value = value;
         }
@@ -189,16 +189,16 @@ function _parseLine ( line ) {
  *
  * @param timestamp : Timestamp of format: YYMMDDhhmmssX
  */
-function _parseTimestamp ( timestamp ) {
+function _parseTimestamp(timestamp) {
     var parsedTimestamp = new Date();
 
-    parsedTimestamp.setFullYear(     parseInt( timestamp.substring( 0, 2 ) ) + 2000  );
-    parsedTimestamp.setMonth(        parseInt( timestamp.substring( 2, 4 ) ) - 1     );
-    parsedTimestamp.setDate(         parseInt( timestamp.substring( 4, 6 ) )         );
-    parsedTimestamp.setHours(        parseInt( timestamp.substring( 6, 8 ) )         );
-    parsedTimestamp.setMinutes(      parseInt( timestamp.substring( 8, 10 ) )        );
-    parsedTimestamp.setSeconds(      parseInt( timestamp.substring( 10, 12 ) )       );
-    parsedTimestamp.setMilliseconds( 0                                               );
+    parsedTimestamp.setFullYear(parseInt(timestamp.substring(0, 2)) + 2000);
+    parsedTimestamp.setMonth(parseInt(timestamp.substring(2, 4)) - 1);
+    parsedTimestamp.setDate(parseInt(timestamp.substring(4, 6)));
+    parsedTimestamp.setHours(parseInt(timestamp.substring(6, 8)));
+    parsedTimestamp.setMinutes(parseInt(timestamp.substring(8, 10)));
+    parsedTimestamp.setSeconds(parseInt(timestamp.substring(10, 12)));
+    parsedTimestamp.setMilliseconds(0);
 
     return parsedTimestamp.toISOString();
 }
@@ -208,10 +208,10 @@ function _parseTimestamp ( timestamp ) {
  *
  * @param log : Power failure event log of format: (value)(value)(value)...
  */
-function _parsePowerFailureEventLog ( log ) {
+function _parsePowerFailureEventLog(log) {
     // TODO: parse event log
 
-    console.log('LOG:',log);
+    console.log('LOG:', log);
 
     return log;
 }
@@ -221,19 +221,19 @@ function _parsePowerFailureEventLog ( log ) {
  *
  * @param reading : Reading of format: (value)(value)
  */
-function _parseHourlyReading ( reading ) {
+function _parseHourlyReading(reading) {
     var output = {
         timestamp: null,
         value: null,
         unit: null
     };
 
-    var split = reading.split( ")(" );
+    var split = reading.split(")(");
 
-    if ( split[ 0 ] && split[ 1 ] ) {
-        output.timestamp = split[ 0 ];
-        output.value     = split[ 1 ].split( "*" )[ 0 ];
-        output.unit      = split[ 1 ].split( "*" )[ 1 ];
+    if (split[0] && split[1]) {
+        output.timestamp = split[0];
+        output.value = split[1].split("*")[0];
+        output.unit = split[1].split("*")[1];
     }
 
     return output;

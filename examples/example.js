@@ -32,4 +32,4 @@ p1Reader.on('close', function() {
 // Handle all uncaught errors without crashing
 process.on('uncaughtException', function(err) {
     console.error( err );
-})
+});
