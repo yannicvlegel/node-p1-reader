@@ -38,67 +38,75 @@ The `reading` event returns the following data structure:
 
 ```
 {
-    "meterType": "MyMeterType",
+    "meterType": "ISk5\2MT382-1000",
     "version": "42",
-    "timestamp": "2016-05-20T19:31:43.000Z",
-    "equipmentId": "1234567890123456789012345678901234",
+    "timestamp": "2010-12-09T10:30:20.000Z",
+    "equipmentId": "4B384547303034303436333935353037",
     "textMessage": {
-        "codes": "12345678",
-        "message": "0123456789:;<=>?"
+        "codes": "3031203631203831",
+        "message": "0123456789:;<=>?0123456789:;<=>?0123456789:;<=>?0123456789:;<=>?0123456789:;<=>?"
     },
     "electricity": {
         "received": {
             "tariff1": {
-                "reading": 123.456,
+                "reading": 123456.789,
                 "unit": "kWh"
             },
             "tariff2": {
-                "reading": 456.789,
+                "reading": 123456.789,
                 "unit": "kWh"
             },
             "actual": {
-                "reading": 0.345,
+                "reading": 1.193,
                 "unit": "kW"
             }
         },
         "delivered": {
             "tariff1": {
-                "reading": 200.12,
+                "reading": 123456.789,
                 "unit": "kWh"
             },
             "tariff2": {
-                "reading": 300.23,
+                "reading": 123456.789,
                 "unit": "kWh"
             },
             "actual": {
-                "reading": 0.456,
+                "reading": 0,
                 "unit": "kW"
             }
         },
-        "tariffIndicator": 1,
-        "threshold": null,
-        "switchPosition": null,
-        "numberOfPowerFailures": 8,
-        "numberOfLongPowerFailures": 5,
+        "tariffIndicator": 2,
+        "threshold": {
+            "value": 16.1,
+            "unit": "kW"
+        },
+        "switchPosition": "1",
+        "numberOfPowerFailures": 4,
+        "numberOfLongPowerFailures": 2,
         "longPowerFailureLog": {
-            "count": 1,
+            "count": 2,
             "log": [
                 {
-                    "endOfFailure": "1999-12-31T23:00:14.000Z",
-                    "duration": 2147483647,
+                    "endOfFailure": "2010-12-08T14:24:15.000Z",
+                    "duration": 240,
+                    "unit": "s"
+                },
+                {
+                    "endOfFailure": "2010-12-08T14:10:04.000Z",
+                    "duration": 301,
                     "unit": "s"
                 }
             ]
         },
         "voltageSags": {
-            "L1": 1,
-            "L2": 2,
-            "L3": 3
+            "L1": 2,
+            "L2": 1,
+            "L3": 0
         },
         "voltageSwell": {
-            "L1": 4,
-            "L2": 5,
-            "L3": 6
+            "L1": 0,
+            "L2": 3,
+            "L3": 0
         },
         "instantaneous": {
             "current": {
@@ -118,29 +126,29 @@ The `reading` event returns the following data structure:
             "power": {
                 "positive": {
                     "L1": {
-                        "reading": 0.201,
+                        "reading": 1.111,
                         "unit": "kW"
                     },
                     "L2": {
-                        "reading": 0.401,
+                        "reading": 2.222,
                         "unit": "kW"
                     },
                     "L3": {
-                        "reading": 0.601,
+                        "reading": 3.333,
                         "unit": "kW"
                     }
                 },
                 "negative": {
                     "L1": {
-                        "reading": 0.222,
+                        "reading": 4.444,
                         "unit": "kW"
                     },
                     "L2": {
-                        "reading": 0.422,
+                        "reading": 5.555,
                         "unit": "kW"
                     },
                     "L3": {
-                        "reading": 0.622,
+                        "reading": 6.666,
                         "unit": "kW"
                     }
                 }
@@ -149,11 +157,11 @@ The `reading` event returns the following data structure:
     },
     "gas": {
         "deviceType": "003",
-        "equipmentId": "1234567890123456789012345678901234",
-        "timestamp": "2016-05-20T19:00:00.000Z",
-        "reading": 500.123,
+        "equipmentId": "3232323241424344313233343536373839",
+        "timestamp": "2010-12-09T10:00:00.000Z",
+        "reading": 12785.123,
         "unit": "m3",
-        "valvePosition": null
+        "valvePosition": "1"
     }
 }
 ```
