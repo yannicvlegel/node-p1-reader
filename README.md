@@ -38,36 +38,40 @@ The `reading` event returns the following data structure:
 
 ```
 {
-    "meterType": "KFM5KAIFA-METER",
+    "meterType": "MyMeterType",
     "version": "42",
-    "timestamp": "2016-03-05T16:52:50.000Z",
-    "equipmentId": "4530303033303030303035393034333134",
+    "timestamp": "2016-05-20T19:31:43.000Z",
+    "equipmentId": "1234567890123456789012345678901234",
+    "textMessage": {
+        "codes": "12345678",
+        "message": "0123456789:;<=>?"
+    },
     "electricity": {
         "received": {
             "tariff1": {
-                "reading": 83.867,
+                "reading": 123.456,
                 "unit": "kWh"
             },
             "tariff2": {
-                "reading": 60.363,
+                "reading": 456.789,
                 "unit": "kWh"
             },
             "actual": {
-                "reading": 0.147,
+                "reading": 0.345,
                 "unit": "kW"
             }
         },
         "delivered": {
             "tariff1": {
-                "reading": 0,
+                "reading": 200.12,
                 "unit": "kWh"
             },
             "tariff2": {
-                "reading": 0,
+                "reading": 300.23,
                 "unit": "kWh"
             },
             "actual": {
-                "reading": 0,
+                "reading": 0.456,
                 "unit": "kW"
             }
         },
@@ -76,12 +80,78 @@ The `reading` event returns the following data structure:
         "switchPosition": null,
         "numberOfPowerFailures": 8,
         "numberOfLongPowerFailures": 5,
-        "longPowerFailureLog": null
+        "longPowerFailureLog": {
+            "count": 1,
+            "log": [
+                {
+                    "endOfFailure": "1999-12-31T23:00:14.000Z",
+                    "duration": 2147483647,
+                    "unit": "s"
+                }
+            ]
+        },
+        "voltageSags": {
+            "L1": 1,
+            "L2": 2,
+            "L3": 3
+        },
+        "voltageSwell": {
+            "L1": 4,
+            "L2": 5,
+            "L3": 6
+        },
+        "instantaneous": {
+            "current": {
+                "L1": {
+                    "reading": 1,
+                    "unit": "A"
+                },
+                "L2": {
+                    "reading": 2,
+                    "unit": "A"
+                },
+                "L3": {
+                    "reading": 3,
+                    "unit": "A"
+                }
+            },
+            "power": {
+                "positive": {
+                    "L1": {
+                        "reading": 0.201,
+                        "unit": "kW"
+                    },
+                    "L2": {
+                        "reading": 0.401,
+                        "unit": "kW"
+                    },
+                    "L3": {
+                        "reading": 0.601,
+                        "unit": "kW"
+                    }
+                },
+                "negative": {
+                    "L1": {
+                        "reading": 0.222,
+                        "unit": "kW"
+                    },
+                    "L2": {
+                        "reading": 0.422,
+                        "unit": "kW"
+                    },
+                    "L3": {
+                        "reading": 0.622,
+                        "unit": "kW"
+                    }
+                }
+            }
+        }
     },
     "gas": {
-        "equipmentId": "4730303139333430323230323137323135",
-        "timestamp": "2016-03-05T16:00:00.000Z",
-        "reading": 98.391,
+        "deviceType": "003",
+        "equipmentId": "1234567890123456789012345678901234",
+        "timestamp": "2016-05-20T19:00:00.000Z",
+        "reading": 500.123,
         "unit": "m3",
         "valvePosition": null
     }
