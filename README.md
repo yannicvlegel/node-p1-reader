@@ -8,17 +8,15 @@ How to use
 The serial connection is automatically opened on initiating the P1-Reader. Use the `reading` event to start receiving data, which should come in every 10 seconds.
 
 ```
-var P1Reader = require('../main');
-var fs = require('fs');
-
+var P1Reader = require('p1-reader');
 var p1Reader = new P1Reader();
 
 p1Reader.on('reading', function(data) {
-    console.log('Reading received: currently consuming ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
+    console.log('Currently consuming: ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
 });
 
-p1Reader.on('error', function(data) {
-    console.log('Error while reading: ' + data);
+p1Reader.on('error', function(err) {
+    console.log('Error while reading: ' + err);
 });
 ```
 
