@@ -7,7 +7,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/RuudV1/node-p1-reader.git"
+        "url": "https://github.com/ruudverheijden/node-p1-reader.git"
     },
     "dependencies": {
         "serialport": "3.1.1"
