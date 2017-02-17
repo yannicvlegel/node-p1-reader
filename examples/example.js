@@ -1,6 +1,7 @@
 var P1Reader = require('../main');
 var fs = require('fs');
 
+// Note: to force a certain serial port (instead of auto discovery) set the {serialPort: '/dev/tty-usbserial1'} option
 var p1Reader = new P1Reader({debug: true});
 
 p1Reader.on('reading', function(data) {

@@ -175,9 +175,33 @@ Provide the `debug` option parameter to run the module in debug mode:
 var p1Reader = new P1Reader({debug: true});
 ```
 
+Force specific serial port
+==========================
+
+If for some reason the automatic serial port discovery does not work it is possible to force a certain port.
+
+Provide the `serialPort` option parameter to use a specific serial port:
+
+```
+var p1Reader = new P1Reader({serialPort: '/dev/tty-usbserial1'});
+```
+
 Official DSMR documentation
 ===========================
 
 The official DSMR Smart Meter P1 interface documentation from Netbeheer Nederland can be found here:
 http://www.netbeheernederland.nl/publicaties/publicatie/?documentregistrationid=1745033
 This documentation was used as a reference to create and verify this module.
+
+Changelog
+=========
+
+1.1.0
+- Added option to force a specific port
+- Log more debugging information
+
+1.0.1
+- Updated readme
+
+1.0.0
+- Initial version with full DSMR 4.2 specification implemented

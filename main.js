@@ -23,20 +23,24 @@ function P1Reader(options) {
 
     EventEmitter.call(this);
 
-    // Automatically find the correct serial port
-    serialPort.list(function (err, ports) {
-        if (err) {
-            throw new Error('Serialports could not be listed: ' + err);
-        }
-
-        if (debugMode) {
-            debug.logAvailablePorts(ports);
-        }
-
-        availablePorts = ports;
-
+    // Either force a specific port or automatically discover it
+    if (options && options.serialPort) {
+        availablePorts = options.serialPort;
         _setupSerialConnection();
-    });
+    } else {
+        serialPort.list(function (err, ports) {
+            if (err) {
+                throw new Error('Serialports could not be listed: ' + err);
+            }
+
+            if (debugMode) {
+                debug.logAvailablePorts(ports);
+            }
+
+            availablePorts = ports;
+            _setupSerialConnection();
+        });
+    }
 }
 
 util.inherits(P1Reader, EventEmitter);
@@ -53,7 +57,7 @@ function _setupSerialConnection() {
     console.log('Trying to connect to Smart Meter via port: ' + port);
 
     // Go to the next port if this one didn't respond within the timeout limit
-    setTimeout(function(){
+    setTimeout(function() {
         if (!serialPortFound) {
             _tryNextSerialPort();
         }
