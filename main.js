@@ -5,7 +5,6 @@ var serialPort = require('serialport');
 var SerialPort = serialPort.SerialPort;
 
 var serialPortFound = false;
-var debugMode = false;
 var availablePorts = [];
 var constructor;
 var timer;
@@ -15,11 +14,6 @@ var debug = require('./lib/debug');
 var config = require('./config/config.json');
 
 function P1Reader(options) {
-    if (options && options.debug) {
-        debugMode = options.debug;
-        console.log('DEBUG MODE ACTIVE');
-    }
-
     constructor = this;
 
     EventEmitter.call(this);
@@ -36,9 +30,7 @@ function P1Reader(options) {
                 throw new Error('Serialports could not be listed: ' + err);
             }
 
-            if (debugMode) {
-                debug.logAvailablePorts(ports);
-            }
+            debug.logAvailablePorts(ports);
 
             availablePorts = ports;
             _setupSerialConnection();
@@ -97,10 +89,7 @@ function _setupSerialConnection() {
                     }
                 }
 
-                // Write packet to log if debug mode is active
-                if (debugMode) {
-                    debug.writeToLogFile(packet, parsedPacket);
-                }
+                debug.writeToLogFile(packet, parsedPacket);
 
                 if (parsedPacket.timestamp !== null) {
                     constructor.emit('reading', parsedPacket);
