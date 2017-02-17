@@ -2,7 +2,6 @@ var EventEmitter = require('events');
 var util = require('util');
 var fs = require('fs');
 var serialPort = require('serialport');
-var SerialPort = serialPort.SerialPort;
 
 var serialPortFound = false;
 var debugMode = false;
@@ -67,7 +66,7 @@ function _setupSerialConnection() {
     }, config.connectionSetupTimeout);
 
     // Open serial port connection
-    var sp = new SerialPort(port, config.serialPort);
+    var sp = new serialPort(port, config.serialPort);
 
     var received = '';
 
