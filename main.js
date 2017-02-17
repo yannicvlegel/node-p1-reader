@@ -25,7 +25,9 @@ function P1Reader(options) {
 
     // Either force a specific port or automatically discover it
     if (options && options.serialPort) {
-        availablePorts = options.serialPort;
+        availablePorts[0] = {
+            comName: options.serialPort
+        };
         _setupSerialConnection();
     } else {
         serialPort.list(function (err, ports) {
