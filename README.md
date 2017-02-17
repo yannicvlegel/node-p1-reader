@@ -196,6 +196,9 @@ This documentation was used as a reference to create and verify this module.
 Changelog
 =========
 
+1.1.1
+- Minor bug fix
+
 1.1.0
 - Added option to force a specific port
 - Log more debugging information
