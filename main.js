@@ -62,6 +62,7 @@ function _setupSerialConnection() {
     // Go to the next port if this one didn't respond within the timeout limit
     timer = setTimeout(function() {
         if (!serialPortFound) {
+            _tryNextSerialPort();
         }
     }, config.connectionSetupTimeout);
 
