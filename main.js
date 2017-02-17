@@ -8,6 +8,7 @@ var serialPortFound = false;
 var debugMode = false;
 var availablePorts = [];
 var constructor;
+var timer;
 
 var parsePacket = require('./lib/parsePacket');
 var debug = require('./lib/debug');
@@ -59,9 +60,8 @@ function _setupSerialConnection() {
     console.log('Trying to connect to Smart Meter via port: ' + port);
 
     // Go to the next port if this one didn't respond within the timeout limit
-    setTimeout(function() {
+    timer = setTimeout(function() {
         if (!serialPortFound) {
-            _tryNextSerialPort();
         }
     }, config.connectionSetupTimeout);
 
@@ -112,12 +112,13 @@ function _setupSerialConnection() {
     });
 
     sp.on('error', function (error) {
+        constructor.emit('error', error);
+
         // Reject this port if we haven't found the correct port yet
         if (!serialPortFound) {
             _tryNextSerialPort();
-        }
 
-        constructor.emit('error', error);
+        }
     });
 
     sp.on('close', function () {
@@ -129,6 +130,7 @@ function _setupSerialConnection() {
  * Try the next serial port if available
  */
 function _tryNextSerialPort() {
+    clearTimeout(timer);
     availablePorts.shift();
 
     if (availablePorts.length > 0) {
