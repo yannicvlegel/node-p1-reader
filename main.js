@@ -29,6 +29,10 @@ function P1Reader(options) {
             throw new Error('Serialports could not be listed: ' + err);
         }
 
+        if (debugMode) {
+            debug.logAvailablePorts(ports);
+        }
+
         availablePorts = ports;
 
         _setupSerialConnection();
@@ -47,6 +51,13 @@ function _setupSerialConnection() {
     var port = availablePorts[0].comName;
 
     console.log('Trying to connect to Smart Meter via port: ' + port);
+
+    // Go to the next port if this one didn't respond within the timeout limit
+    setTimeout(function(){
+        if (!serialPortFound) {
+            _tryNextSerialPort();
+        }
+    }, config.connectionSetupTimeout);
 
     // Open serial port connection
     var sp = new SerialPort(port, config.serialPort);
