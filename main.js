@@ -130,7 +130,7 @@ function _tryNextSerialPort() {
     availablePorts.shift();
 
     if (availablePorts.length > 0) {
-        console.log('Smart Meter not attached to this port, trying another one...');
+        console.log('Smart Meter not attached to this port, trying another...');
         _setupSerialConnection();
     } else {
         throw new Error('Could not find an attached Smart Meter');
