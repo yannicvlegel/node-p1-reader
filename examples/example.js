@@ -4,8 +4,8 @@ var fs = require('fs');
 // Note: to force a certain serial port (instead of auto discovery) set the {serialPort: '/dev/tty-usbserial1'} option
 var p1Reader = new P1Reader({debug: true});
 
-p1Reader.on('connected', function(data) {
-    console.log('Connection with the Smart Meter has been established on port: ' + p1Reader.getSerialPort());
+p1Reader.on('connected', function(port) {
+    console.log('Connection with the Smart Meter has been established on port: ' + port);
 });
 
 p1Reader.on('reading', function(data) {
@@ -26,17 +26,15 @@ p1Reader.on('reading', function(data) {
     fs.appendFile('p1-reader-log.csv', csvOutput);
 });
 
-p1Reader.on('error', function(data) {
-    console.log('Error while reading: ' + data);
+p1Reader.on('error', function(error) {
+    console.log(error);
 });
 
 p1Reader.on('close', function() {
     console.log('Connection closed');
 });
 
-
-
 // Handle all uncaught errors without crashing
-process.on('uncaughtException', function(err) {
-    console.error( err );
+process.on('uncaughtException', function(error) {
+    console.error(error);
 });

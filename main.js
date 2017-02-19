@@ -13,6 +13,8 @@ var debug = require('./lib/debug');
 var config = require('./config/config.json');
 
 function P1Reader(options) {
+    debug.setDebugMode(options.debug);
+
     constructor = this;
 
     EventEmitter.call(this);
@@ -56,7 +58,7 @@ module.exports = P1Reader;
 function _setupSerialConnection() {
     var port = availablePorts[0];
 
-    console.log('Trying to connect to Smart Meter via port: ' + port);
+    debug.log('Trying to connect to Smart Meter via port: ' + port);
 
     // Go to the next port if this one didn't respond within the timeout limit
     timer = setTimeout(function() {
@@ -71,7 +73,7 @@ function _setupSerialConnection() {
     var received = '';
 
     sp.on('open', function () {
-        console.log('Serial connection established');
+        debug.log('Serial connection established');
 
         sp.on('data', function (data) {
             received += data.toString();
@@ -89,10 +91,10 @@ function _setupSerialConnection() {
                 // Verify if connected to the correct serial port at initialization
                 if (!serialPortUsed) {
                     if (parsedPacket.timestamp !== null) {
-                        console.log('Connection with Smart Meter established');
+                        debug.log('Connection with Smart Meter established');
                         serialPortUsed = port;
 
-                        constructor.emit('connected');
+                        constructor.emit('connected', port);
                     } else {
                         _tryNextSerialPort();
                     }
@@ -131,7 +133,7 @@ function _tryNextSerialPort() {
     availablePorts.shift();
 
     if (availablePorts.length > 0) {
-        console.log('Smart Meter not attached to this port, trying another...');
+        debug.log('Smart Meter not attached to this port, trying another...');
         _setupSerialConnection();
     } else {
         throw new Error('Could not find an attached Smart Meter');
