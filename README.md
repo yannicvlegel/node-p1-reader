@@ -197,6 +197,8 @@ This documentation was used as a reference to create and verify this module.
 Changelog
 =========
 1.2.0
+- Upgraded serialport to 4.0.7
+- Serial port is now automatically locked preventing other processes from opening it
 - Added 'connected' event
 - Exposed used serial port name via getSerialPort()
 

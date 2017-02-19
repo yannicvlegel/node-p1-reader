@@ -103,8 +103,7 @@ function _setupSerialConnection() {
                 if (parsedPacket.timestamp !== null) {
                     constructor.emit('reading', parsedPacket);
                 } else {
-                    console.error('Invalid reading received, event not emitted.');
-                    // TODO: set a limiter on the amount of these errors, restart if it occured 5 times
+                    constructor.emit('error', 'Invalid reading');
                 }
             }
         });
