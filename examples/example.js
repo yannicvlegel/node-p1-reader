@@ -4,6 +4,10 @@ var fs = require('fs');
 // Note: to force a certain serial port (instead of auto discovery) set the {serialPort: '/dev/tty-usbserial1'} option
 var p1Reader = new P1Reader({debug: true});
 
+p1Reader.on('connected', function(data) {
+    console.log('Connection with the Smart Meter has been established on port: ' + p1Reader.getSerialPort());
+});
+
 p1Reader.on('reading', function(data) {
     console.log('Reading received: currently consuming ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
 
@@ -29,6 +33,8 @@ p1Reader.on('error', function(data) {
 p1Reader.on('close', function() {
     console.log('Connection closed');
 });
+
+
 
 // Handle all uncaught errors without crashing
 process.on('uncaughtException', function(err) {

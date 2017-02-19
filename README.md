@@ -25,6 +25,7 @@ Events
 
 The module emits the following events:
 
+* `connected` : When a connection with the Smart Meter was successfully setup
 * `reading` : When a reading is received via the serial connection (should be on a 10 second interval)
 * `error` : When the serial connection emits an error
 * `close` : When the serial connection closes for some reason
@@ -195,6 +196,9 @@ This documentation was used as a reference to create and verify this module.
 
 Changelog
 =========
+1.2.0
+- Added 'connected' event
+- Exposed used serial port name via getSerialPort()
 
 1.1.1
 - Minor bug fix

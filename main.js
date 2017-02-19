@@ -3,7 +3,7 @@ var util = require('util');
 var fs = require('fs');
 var serialPort = require('serialport');
 
-var serialPortFound = false;
+var serialPortUsed = false;
 var availablePorts = [];
 var constructor;
 var timer;
@@ -40,6 +40,13 @@ function P1Reader(options) {
 
 util.inherits(P1Reader, EventEmitter);
 
+/**
+ * Retrieve the name of the serial port being used
+ */
+P1Reader.prototype.getSerialPort = function () {
+    return serialPortUsed;
+};
+
 module.exports = P1Reader;
 
 
@@ -53,7 +60,7 @@ function _setupSerialConnection() {
 
     // Go to the next port if this one didn't respond within the timeout limit
     timer = setTimeout(function() {
-        if (!serialPortFound) {
+        if (!serialPortUsed) {
             _tryNextSerialPort();
         }
     }, config.connectionSetupTimeout);
@@ -80,10 +87,12 @@ function _setupSerialConnection() {
                 received = '';
 
                 // Verify if connected to the correct serial port at initialization
-                if (!serialPortFound) {
+                if (!serialPortUsed) {
                     if (parsedPacket.timestamp !== null) {
                         console.log('Connection with Smart Meter established');
-                        serialPortFound = true;
+                        serialPortUsed = port;
+
+                        constructor.emit('connected');
                     } else {
                         _tryNextSerialPort();
                     }
@@ -105,7 +114,7 @@ function _setupSerialConnection() {
         constructor.emit('error', error);
 
         // Reject this port if we haven't found the correct port yet
-        if (!serialPortFound) {
+        if (!serialPortUsed) {
             _tryNextSerialPort();
         }
     });
