@@ -4,7 +4,6 @@ var fs = require('fs');
 var serialPort = require('serialport');
 
 var serialPortFound = false;
-var debugMode = false;
 var availablePorts = [];
 var constructor;
 var timer;
@@ -14,20 +13,13 @@ var debug = require('./lib/debug');
 var config = require('./config/config.json');
 
 function P1Reader(options) {
-    if (options && options.debug) {
-        debugMode = options.debug;
-        console.log('DEBUG MODE ACTIVE');
-    }
-
     constructor = this;
 
     EventEmitter.call(this);
 
     // Either force a specific port or automatically discover it
     if (options && options.serialPort) {
-        availablePorts[0] = {
-            comName: options.serialPort
-        };
+        availablePorts[0] = options.serialPort;
         _setupSerialConnection();
     } else {
         serialPort.list(function (err, ports) {
@@ -35,11 +27,12 @@ function P1Reader(options) {
                 throw new Error('Serialports could not be listed: ' + err);
             }
 
-            if (debugMode) {
-                debug.logAvailablePorts(ports);
+            debug.logAvailablePorts(ports);
+
+            for (var i = 0; i < ports.length; i++) {
+                availablePorts[i] = ports[i].comName;
             }
 
-            availablePorts = ports;
             _setupSerialConnection();
         });
     }
@@ -54,7 +47,7 @@ module.exports = P1Reader;
  * Setup serial port connection
  */
 function _setupSerialConnection() {
-    var port = availablePorts[0].comName;
+    var port = availablePorts[0];
 
     console.log('Trying to connect to Smart Meter via port: ' + port);
 
@@ -96,10 +89,7 @@ function _setupSerialConnection() {
                     }
                 }
 
-                // Write packet to log if debug mode is active
-                if (debugMode) {
-                    debug.writeToLogFile(packet, parsedPacket);
-                }
+                debug.writeToLogFile(packet, parsedPacket);
 
                 if (parsedPacket.timestamp !== null) {
                     constructor.emit('reading', parsedPacket);
@@ -117,7 +107,6 @@ function _setupSerialConnection() {
         // Reject this port if we haven't found the correct port yet
         if (!serialPortFound) {
             _tryNextSerialPort();
-
         }
     });
 

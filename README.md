@@ -207,4 +207,4 @@ Changelog
 - Updated readme
 
 1.0.0
-- Initial version with full DSMR 4.2 specification implemented
+- Initial version with full DSMR 4.0 specification implemented
