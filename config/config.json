@@ -9,5 +9,6 @@
     "stopCharacter": "!",
     "connectionSetupTimeout": 30000,
     "debugRawDataFile": "debug-data-raw.log",
-    "debugParsedDataFile": "debug-data-parsed.log"
+    "debugParsedDataFile": "debug-data-parsed.log",
+    "mockDataInterval": 10000
 }
