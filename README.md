@@ -165,6 +165,28 @@ The `reading` event returns the following data structure:
 }
 ```
 
+Emulator mode
+==========
+
+Since your development machine is usually not connected to the serial port directly the emulator mode can be enabled.
+When enabled the module will not connect to a serial port but instead will use a mocked version that will emit messages according to the DSMR 4.0 specification.
+
+The emulator will emit a reading event every 10 seconds just like an actual Smart Meter would do with the most important variables (timestamp, electricity.received.tariff1, electricity.received.actual, gas.timestamp and gas.reading) being incremented.
+
+Provide the `emulator` option parameter to run the module in emulator mode:
+
+```
+var p1Reader = new P1Reader({emulator: true});
+```
+
+The starting and incremental values of both electricity can optionally be configured using the following option parameters:
+
+* `electricityStart` : Starting value of electricity on tariff 1 in kWh (default: 1000)
+* `electricityIncrement` : Incremental value (every 10 seconds) of electricity on tariff 1 in kW (default: 100)
+* `gasStart` : Starting value of gas in m3 (default: 500)
+* `gasIncrement` : Incremental value (every hour) of gas in m3 (default: 50)
+
+
 Debug mode
 ==========
 
@@ -196,6 +218,10 @@ This documentation was used as a reference to create and verify this module.
 
 Changelog
 =========
+
+1.3.0
+- Added emulator mode for development purposes
+
 1.2.0
 - Upgraded serialport to 4.0.7
 - Serial port is now automatically locked preventing other processes from opening it
