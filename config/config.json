@@ -10,6 +10,6 @@
     "connectionSetupTimeout": 30000,
     "debugRawDataFile": "debug-data-raw.log",
     "debugParsedDataFile": "debug-data-parsed.log",
-    "emulatorInterval": 1000,
-    "emulatorGasInterval": 2000
+    "emulatorInterval": 10000,
+    "emulatorGasInterval": 3600000
 }
