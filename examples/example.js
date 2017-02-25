@@ -10,10 +10,14 @@ var config = {};
 // config.serialPort = '/dev/tty-usbserial1';
 
 // Enable Emulator Mode by uncommenting the line below
-// config.electricityOffset = 100;
-// config.electricityIncrement = 10;
-// config.gasOffset = 50;
-// config.gasIncrement = 5;
+// config.emulator = true;
+
+// Optionally override certain emulator parameters if Emulator Mode is enabled by uncommenting the lines below
+// config.emulatorOverrides = {};
+// config.emulatorOverrides.electricityOffset = 100;
+// config.emulatorOverrides.electricityIncrement = 0.500;
+// config.emulatorOverrides.gasOffset = 50;
+// config.emulatorOverrides.gasIncrement = 0.100;
 
 var p1Reader = new P1Reader(config);
 

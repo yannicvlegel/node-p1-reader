@@ -179,7 +179,7 @@ Provide the `emulator` option parameter to run the module in emulator mode:
 var p1Reader = new P1Reader({emulator: true});
 ```
 
-The starting and incremental values of both electricity can optionally be configured using the following option parameters:
+The emulator defaults can be overriden by passing an `emulatorOverrides` object, which can contain the following parameters:
 
 * `electricityOffset` : Starting value of electricity on tariff 1 in kWh (default: 1000)
 * `electricityIncrement` : Incremental value (every 10 seconds) of electricity on tariff 1 in kW (default: 100)
@@ -221,6 +221,7 @@ Changelog
 
 1.3.0
 - Added emulator mode for development purposes
+- Extended example with all possible option parameters
 
 1.2.0
 - Upgraded serialport to 4.0.7

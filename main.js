@@ -1,6 +1,5 @@
 var EventEmitter = require('events');
 var util = require('util');
-var fs = require('fs');
 var serialPort = require('serialport');
 
 var serialPortUsed = false;
@@ -14,6 +13,11 @@ var config = require('./config/config.json');
 
 function P1Reader(options) {
     debug.setDebugMode(options.debug);
+
+    if (options.emulator) {
+        serialPort = require('./lib/emulateSerialport');
+        serialPort.setEmulatorOverrides(options.emulatorOverrides);
+    }
 
     constructor = this;
 
