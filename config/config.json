@@ -10,5 +10,6 @@
     "connectionSetupTimeout": 30000,
     "debugRawDataFile": "debug-data-raw.log",
     "debugParsedDataFile": "debug-data-parsed.log",
-    "mockDataInterval": 10000
+    "emulatorInterval": 1000,
+    "emulatorGasInterval": 2000
 }
