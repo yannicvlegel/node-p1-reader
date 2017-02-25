@@ -1,6 +1,6 @@
 # Node.js P1-Reader
 Node.js package for reading and parsing data from the P1 port of a Dutch Smart Meter.
-Data is parsed according to the official 2011 DSMR4.0 specification by Netbeheer Nederland, which is used by most popular Kaifa and Landis+Gyr Smart Meters.
+Data is parsed according to the official DSMR4.0 specification by Netbeheer Nederland, which is currently used by most popular Kaifa and Landis+Gyr Smart Meters.
 
 How to use
 ==========
