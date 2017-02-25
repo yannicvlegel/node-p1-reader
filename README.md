@@ -181,9 +181,9 @@ var p1Reader = new P1Reader({emulator: true});
 
 The starting and incremental values of both electricity can optionally be configured using the following option parameters:
 
-* `electricityStart` : Starting value of electricity on tariff 1 in kWh (default: 1000)
+* `electricityOffset` : Starting value of electricity on tariff 1 in kWh (default: 1000)
 * `electricityIncrement` : Incremental value (every 10 seconds) of electricity on tariff 1 in kW (default: 100)
-* `gasStart` : Starting value of gas in m3 (default: 500)
+* `gasOffset` : Starting value of gas in m3 (default: 500)
 * `gasIncrement` : Incremental value (every hour) of gas in m3 (default: 50)
 
 

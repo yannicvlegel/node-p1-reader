@@ -1,8 +1,21 @@
 var P1Reader = require('../main');
 var fs = require('fs');
 
-// Note: to force a certain serial port (instead of auto discovery) set the {serialPort: '/dev/tty-usbserial1'} option
-var p1Reader = new P1Reader({debug: true});
+var config = {};
+
+// Enable Debug Mode by uncommenting the line below
+// config.debug = true;
+
+// Force a specific serial port (instead of auto discovery) by uncommenting the line below
+// config.serialPort = '/dev/tty-usbserial1';
+
+// Enable Emulator Mode by uncommenting the line below
+// config.electricityOffset = 100;
+// config.electricityIncrement = 10;
+// config.gasOffset = 50;
+// config.gasIncrement = 5;
+
+var p1Reader = new P1Reader(config);
 
 p1Reader.on('connected', function(port) {
     console.log('Connection with the Smart Meter has been established on port: ' + port);
