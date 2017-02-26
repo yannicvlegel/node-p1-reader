@@ -185,6 +185,8 @@ The emulator defaults can be overriden by passing an `emulatorOverrides` object,
 * `electricityIncrement` : Incremental value (every 10 seconds) of electricity on tariff 1 in kW (default: 0.1)
 * `gasOffset` : Starting value of gas in m3 (default: 0)
 * `gasIncrement` : Incremental value (every hour) of gas in m3 (default: 0.1)
+* `interval` : Interval (in seconds) in which readings are emitted (default: 10)
+* `intervalGas` Interval (in seconds) in which the gas reading is incremented (default: 3600)
 
 
 Debug mode
@@ -218,6 +220,9 @@ This documentation was used as a reference to create and verify this module.
 
 Changelog
 =========
+
+1.3.1
+- Added option to control the interval of the emulator mode via an option parameter
 
 1.3.0
 - Added emulator mode for development purposes
