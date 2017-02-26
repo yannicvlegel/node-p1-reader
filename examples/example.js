@@ -18,6 +18,8 @@ var config = {};
 // config.emulatorOverrides.electricityIncrement = 0.500;
 // config.emulatorOverrides.gasOffset = 50;
 // config.emulatorOverrides.gasIncrement = 0.100;
+// config.emulatorOverrides.interval = 1;
+// config.emulatorOverrides.intervalGas = 3; // Must be larger than 'interval'
 
 var p1Reader = new P1Reader(config);
 

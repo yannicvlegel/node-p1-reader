@@ -11,5 +11,5 @@
     "debugRawDataFile": "debug-data-raw.log",
     "debugParsedDataFile": "debug-data-parsed.log",
     "emulatorIntervalInSeconds": 10,
-    "emulatorGasIntervalInSeconds": 3600
+    "emulatorIntervalGasInSeconds": 3600
 }
