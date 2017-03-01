@@ -223,6 +223,9 @@ This documentation was used as a reference to create and verify this module.
 Changelog
 =========
 
+1.4.1
+- Minor bug fix on incorrectly returning the LongPowerFailureLog object
+
 1.4.0
 - Exposing and calculating the datetime of the start of a LongPowerFailure
 - Added the 'reading-raw' event to retrieve the raw data (as a string) that was retrieved from the Smart Meter
