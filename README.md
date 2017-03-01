@@ -86,11 +86,13 @@ The `reading` event returns the following data structure:
             "count": 2,
             "log": [
                 {
+                    "startOfFailure": "2010-12-08T14:20:15.000Z",
                     "endOfFailure": "2010-12-08T14:24:15.000Z",
                     "duration": 240,
                     "unit": "s"
                 },
                 {
+                    "startOfFailure": "2010-12-08T14:05:03.000Z",
                     "endOfFailure": "2010-12-08T14:10:04.000Z",
                     "duration": 301,
                     "unit": "s"
@@ -220,6 +222,9 @@ This documentation was used as a reference to create and verify this module.
 
 Changelog
 =========
+
+1.4.0
+- Exposing and calculating the datetime of the start of a LongPowerFailure
 
 1.3.1
 - Added option to control the interval of the emulator mode via an option parameter
