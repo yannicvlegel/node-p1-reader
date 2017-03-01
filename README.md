@@ -27,6 +27,7 @@ The module emits the following events:
 
 * `connected` : When a connection with the Smart Meter was successfully setup
 * `reading` : When a reading is received via the serial connection (should be on a 10 second interval)
+* `reading-raw` : Same as the `reading` event but instead returning the raw data as a string
 * `error` : When the serial connection emits an error
 * `close` : When the serial connection closes for some reason
 
@@ -190,7 +191,6 @@ The emulator defaults can be overriden by passing an `emulatorOverrides` object,
 * `interval` : Interval (in seconds) in which readings are emitted (default: 10)
 * `intervalGas` Interval (in seconds) in which the gas reading is incremented (default: 3600)
 
-
 Debug mode
 ==========
 
@@ -225,6 +225,7 @@ Changelog
 
 1.4.0
 - Exposing and calculating the datetime of the start of a LongPowerFailure
+- Added the 'reading-raw' event to retrieve the raw data (as a string) that was retrieved from the Smart Meter
 
 1.3.1
 - Added option to control the interval of the emulator mode via an option parameter

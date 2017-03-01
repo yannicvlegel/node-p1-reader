@@ -106,6 +106,8 @@ function _setupSerialConnection() {
 
                 debug.writeToLogFile(packet, parsedPacket);
 
+                constructor.emit('reading-raw', packet);
+
                 if (parsedPacket.timestamp !== null) {
                     constructor.emit('reading', parsedPacket);
                 } else {

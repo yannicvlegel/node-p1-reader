@@ -45,6 +45,11 @@ p1Reader.on('reading', function(data) {
     fs.appendFile('p1-reader-log.csv', csvOutput);
 });
 
+p1Reader.on('reading-raw', function(data) {
+    // If you are interested in viewing the unparsed data that was received at the serial port uncomment the line below
+    // console.log(data);
+});
+
 p1Reader.on('error', function(error) {
     console.log(error);
 });
