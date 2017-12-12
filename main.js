@@ -12,6 +12,10 @@ var debug = require('./lib/debug');
 var config = require('./config/config.json');
 
 function P1Reader(options) {
+    if (typeof options !== 'object') {
+      options = {};
+    }
+
     debug.setDebugMode(options.debug);
 
     if (options.emulator) {
