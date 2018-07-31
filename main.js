@@ -30,7 +30,7 @@ function P1Reader(options) {
     } else {
         serialPort.list(function (err, ports) {
             if (err) {
-                throw new Error('Serialports could not be listed: ' + err);
+                console.error('Serialports could not be listed: ' + err);
             }
 
             debug.logAvailablePorts(ports);
@@ -142,6 +142,6 @@ function _tryNextSerialPort() {
         debug.log('Smart Meter not attached to this port, trying another...');
         _setupSerialConnection();
     } else {
-        throw new Error('Could not find an attached Smart Meter');
+        console.error('Could not find an attached Smart Meter');
     }
 }
