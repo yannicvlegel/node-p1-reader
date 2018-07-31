@@ -122,6 +122,8 @@ function _setupSerialConnection() {
     });
 
     sp.on('error', function (error) {
+        debug.log('Error emitted: ' + error);
+
         constructor.emit('error', error);
 
         // Reject this port if we haven't found the correct port yet
