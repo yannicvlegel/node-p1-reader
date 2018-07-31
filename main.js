@@ -32,7 +32,7 @@ function P1Reader(options) {
         availablePorts[0] = options.serialPort;
         _setupSerialConnection();
     } else {
-        serialPort.list(function (err, ports) {
+        serialPort.list((err, ports) => {
             if (err) {
                 console.error('Serialports could not be listed: ' + err);
             }
@@ -69,7 +69,7 @@ function _setupSerialConnection() {
     debug.log('Trying to connect to Smart Meter via port: ' + port);
 
     // Go to the next port if this one didn't respond within the timeout limit
-    timer = setTimeout(function() {
+    timer = setTimeout(() => {
         if (!serialPortUsed) {
             _tryNextSerialPort();
         }
@@ -80,10 +80,10 @@ function _setupSerialConnection() {
 
     var received = '';
 
-    sp.on('open', function () {
+    sp.on('open', () => {
         debug.log('Serial connection established');
 
-        sp.on('data', function (data) {
+        sp.on('data', (data) => {
             received += data.toString();
 
             var startCharPos = received.indexOf(config.startCharacter);
@@ -121,7 +121,7 @@ function _setupSerialConnection() {
         });
     });
 
-    sp.on('error', function (error) {
+    sp.on('error', (error) => {
         debug.log('Error emitted: ' + error);
 
         constructor.emit('error', error);
@@ -132,7 +132,7 @@ function _setupSerialConnection() {
         }
     });
 
-    sp.on('close', function () {
+    sp.on('close', () => {
         constructor.emit('close');
     });
 }
