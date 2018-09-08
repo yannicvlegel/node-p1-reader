@@ -1,6 +1,6 @@
 const EventEmitter = require('events');
 const util = require('util');
-const serialPort = require('serialport');
+let serialPort = require('serialport');
 
 let serialPortUsed = false;
 let autodiscoverList = [];
@@ -36,7 +36,7 @@ function P1Reader(options) {
             dataBits: options.serialPort.dataBits,
             stopBits: options.serialPort.stopBits
         };
-        
+
         _setupSerialConnection();
     } else {
         serialPort.list()
