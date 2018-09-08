@@ -223,6 +223,9 @@ This documentation was used as a reference to create and verify this module.
 
 Changelog
 =========
+1.5.1
+- Small fix for bug that broke the emulator since last version
+
 1.5.0
 - Serial port auto discovery function now also tries different configurations to allow to automatically connect to any DSMR 4+ Smart Meter
 - Allow forcing both a specific port and configuration (baudrate, parity, databits and stopbits) - Note that the "port" parameter is replaced, which is not backwards compatible
