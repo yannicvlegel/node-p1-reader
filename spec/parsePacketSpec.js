@@ -1,18 +1,18 @@
 describe("parsePacket", function() {
-    var parsePacket = require('../lib/parsePacket');
+    const parsePacket = require('../lib/parsePacket');
 
-    var defaultHeader = "/MyMeterType\r\n \r\n";
+    const defaultHeader = "/MyMeterType\r\n \r\n";
 
     it("should be able to parse the packet header containing the meter type", function() {
-        var parsedPacket = parsePacket(defaultHeader);
+        const parsedPacket = parsePacket(defaultHeader);
 
         expect(parsedPacket.meterType).toEqual("MyMeterType");
     });
 
     it("should return the expected output object", function() {
-        var parsedPacket = parsePacket(defaultHeader);
+        const parsedPacket = parsePacket(defaultHeader);
 
-        var expectedOutputObject = {
+        const expectedOutputObject = {
             meterType: "MyMeterType",
                 version: null,
                 timestamp: null,
@@ -127,21 +127,21 @@ describe("parsePacket", function() {
     });
 
     it("should be able to parse the timestamp (summer time) from a packet", function() {
-        var packet = defaultHeader + "0-0:1.0.0(160520213143S)";
-        var parsedPacket = parsePacket(packet);
+        const packet = defaultHeader + "0-0:1.0.0(160520213143S)";
+        const parsedPacket = parsePacket(packet);
 
         expect(parsedPacket.timestamp).toEqual("2016-05-20T19:31:43.000Z");
     });
 
     it("should be able to parse the timestamp (winter time) from a packet", function() {
-        var packet = defaultHeader + "0-0:1.0.0(160100000000W)";
-        var parsedPacket = parsePacket(packet);
+        const packet = defaultHeader + "0-0:1.0.0(160100000000W)";
+        const parsedPacket = parsePacket(packet);
 
         expect(parsedPacket.timestamp).toEqual("2015-12-30T23:00:00.000Z");
     });
 
     it("should be able to parse an example packet of a KFM5KAIFA meter", function() {
-        var packet = defaultHeader +
+        const packet = defaultHeader +
             "1-3:0.2.8(42)\r\n" +
             "0-0:1.0.0(160520213143S)\r\n" +
             "0-0:96.1.1(1234567890123456789012345678901234)\r\n" +
@@ -154,7 +154,7 @@ describe("parsePacket", function() {
             "1-0:2.7.0(00.456*kW)\r\n" +
             "0-0:96.7.21(00008)\r\n" +
             "0-0:96.7.9(00005)\r\n" +
-            "1-0:99.97.0(1)(0-0:96.7.19)(000101000014W)(2147483647*s)\r\n" +
+            "1-0:99.97.0(1)(0-0:96.7.19)(000101000014W)(60*s)\r\n" +
             "1-0:32.32.0(00001)\r\n" +
             "1-0:52.32.0(00002)\r\n" +
             "1-0:72.32.0(00003)\r\n" +
@@ -176,9 +176,9 @@ describe("parsePacket", function() {
             "0-1:96.1.0(1234567890123456789012345678901234)\r\n" +
             "0-1:24.2.1(160520210000S)(00500.123*m3)";
 
-        var parsedPacket = parsePacket(packet);
+        const parsedPacket = parsePacket(packet);
         
-        var expectedOutputObject = {
+        const expectedOutputObject = {
             "meterType": "MyMeterType",
             "version": "42",
             "timestamp": "2016-05-20T19:31:43.000Z",
@@ -225,8 +225,9 @@ describe("parsePacket", function() {
                     "count": 1,
                     "log": [
                         {
+                            "startOfFailure": "1999-12-31T22:59:14.000Z",
                             "endOfFailure": "1999-12-31T23:00:14.000Z",
-                            "duration": 2147483647,
+                            "duration": 60,
                             "unit": "s"
                         }
                     ]
@@ -302,7 +303,7 @@ describe("parsePacket", function() {
     });
 
     it("should be able to parse a complete packet (official documentation example)", function() {
-        var packet = "/ISk5\\2MT382-1000\r\n \r\n" +
+        const packet = "/ISk5\\2MT382-1000\r\n \r\n" +
             "1-3:0.2.8(42)\r\n" +
             "0-0:1.0.0(101209113020W)\r\n" +
             "0-0:96.1.1(4B384547303034303436333935353037)\r\n" +
@@ -340,9 +341,9 @@ describe("parsePacket", function() {
             "0-1:24.2.1(101209110000W)(12785.123*m3)\r\n" +
             "0-1:24.4.0(1)";
 
-        var parsedPacket = parsePacket(packet);
+        const parsedPacket = parsePacket(packet);
 
-        var expectedOutputObject = {
+        const expectedOutputObject = {
             "meterType": "ISk5\\2MT382-1000",
             "version": "42",
             "timestamp": "2010-12-09T10:30:20.000Z",
@@ -392,11 +393,13 @@ describe("parsePacket", function() {
                     "count": 2,
                     "log": [
                         {
+                            "startOfFailure": "2010-12-08T14:20:15.000Z",
                             "endOfFailure": "2010-12-08T14:24:15.000Z",
                             "duration": 240,
                             "unit": "s"
                         },
                         {
+                            "startOfFailure": "2010-12-08T14:05:03.000Z",
                             "endOfFailure": "2010-12-08T14:10:04.000Z",
                             "duration": 301,
                             "unit": "s"

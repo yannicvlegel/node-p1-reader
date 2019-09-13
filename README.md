@@ -8,8 +8,8 @@ How to use
 The serial connection is automatically opened on initiating the P1-Reader. Use the `reading` event to start receiving data, which should come in every 10 seconds.
 
 ```
-var P1Reader = require('p1-reader');
-var p1Reader = new P1Reader();
+const P1Reader = require('p1-reader');
+const p1Reader = new P1Reader();
 
 p1Reader.on('reading', function(data) {
     console.log('Currently consuming: ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
@@ -179,7 +179,7 @@ The emulator will emit a reading event every 10 seconds just like an actual Smar
 Provide the `emulator` option parameter to run the module in emulator mode:
 
 ```
-var p1Reader = new P1Reader({emulator: true});
+const p1Reader = new P1Reader({emulator: true});
 ```
 
 The emulator defaults can be overriden by passing an `emulatorOverrides` object, which can contain the following parameters:
@@ -199,7 +199,7 @@ In debug mode all raw and parsed packages are written to 2 separate log files (d
 Provide the `debug` option parameter to run the module in debug mode:
 
 ```
-var p1Reader = new P1Reader({debug: true});
+const p1Reader = new P1Reader({debug: true});
 ```
 
 Force specific serial port
