@@ -234,6 +234,7 @@ Changelog
 - Removing serial port auto discovery functionality since it causes issues on many devices, resulting in the need to change the initialisation parameters of this model and therefore a major version bump
 - Updating "node-serialport" and "jasmine" dependencies to latest version
 - Applying ES6 standards to code
+- Improved accuracy of parsing messages by fixing assumption that header is always followed by an empty line, which is not the case for many types of smart meters
 
 1.5.1
 - Small fix for bug that broke the emulator since last version
