@@ -224,7 +224,7 @@ Official DSMR documentation
 ===========================
 
 The official DSMR Smart Meter P1 interface documentation from Netbeheer Nederland can be found here:
-http://www.netbeheernederland.nl/publicaties/publicatie/?documentregistrationid=1745033
+https://www.netbeheernederland.nl/dossiers/slimme-meter-15/documenten
 This documentation was used as a reference to create and verify this module.
 
 Changelog
