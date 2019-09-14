@@ -9,16 +9,34 @@ The serial connection is automatically opened on initiating the P1-Reader. Use t
 
 ```
 const P1Reader = require('p1-reader');
-const p1Reader = new P1Reader();
+const p1Reader = new P1Reader({
+    port: '/dev/tty-usbserial1',
+    baudRate: 115200,
+    parity: "even",
+    dataBits: 7,
+    stopBits: 1
+});
 
-p1Reader.on('reading', function(data) {
+p1Reader.on('reading', data => {
     console.log('Currently consuming: ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
 });
 
-p1Reader.on('error', function(err) {
+p1Reader.on('error', err => {
     console.log('Error while reading: ' + err);
 });
 ```
+
+Force specific serial port
+==========================
+
+If for some reason the automatic serial port discovery does not work it is possible to force a certain port with a specific configuration.
+
+Provide a `serialPort` object as option parameter to set a specific serial port configuration. The object should contain all of the following field:
+* `port` : Portname of the serial port on which the Smart Meter is connected (e.g. '/dev/ttyUSB0')
+* `baudRate` : Baud rate of the serial port (e.g. '9600' or '115200')
+* `parity` : Parity of the serial port (e.g. 'none' or 'even')
+* `dataBits` : Number of data bits used for the serial port (e.g. '7' or '8')
+* `stopBits` : Number of stop bits used for the serial port (e.g. '1')
 
 Events
 ======
@@ -202,18 +220,6 @@ Provide the `debug` option parameter to run the module in debug mode:
 const p1Reader = new P1Reader({debug: true});
 ```
 
-Force specific serial port
-==========================
-
-If for some reason the automatic serial port discovery does not work it is possible to force a certain port with a specific configuration.
-
-Provide a `serialPort` object as option parameter to set a specific serial port configuration. The object should contain all of the following field:
-* `port` : Portname of the serial port on which the Smart Meter is connected (e.g. '/dev/tty-usbserial1')
-* `baudRate` : Baud rate of the serial port (e.g. '9600' or '115200')
-* `parity` : Parity of the serial port (e.g. 'none' or 'even')
-* `dataBits` : Number of data bits used for the serial port (e.g. '7' or '8')
-* `stopBits` : Number of stop bits used for the serial port (e.g. '1')
-
 Official DSMR documentation
 ===========================
 
@@ -223,6 +229,12 @@ This documentation was used as a reference to create and verify this module.
 
 Changelog
 =========
+2.0.0
+- Adding support for DSMR2.2 Smart Meters (tested with Kamstrup 162 model)
+- Removing serial port auto discovery functionality since it causes issues on many devices, resulting in the need to change the initialisation parameters of this model and therefore a major version bump
+- Updating "node-serialport" and "jasmine" dependencies to latest version
+- Applying ES6 standards to code
+
 1.5.1
 - Small fix for bug that broke the emulator since last version
 

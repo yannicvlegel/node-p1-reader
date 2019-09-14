@@ -1,9 +1,8 @@
 const EventEmitter = require('events');
 const util = require('util');
-let serialPort = require('serialport');
+let SerialPort = require('serialport');
 
-let serialPortUsed = false;
-let autodiscoverList = [];
+let connectedToSmartMeter = false;
 let constructor;
 let timer;
 
@@ -12,56 +11,59 @@ const debug = require('./lib/debug');
 const config = require('./config/config.json');
 
 function P1Reader(options) {
-    if (typeof options !== 'object') {
-      options = {};
+    if (typeof options !== 'object' || options.port == "" || options.baudRate == "" || options.parity == "" || options.dataBits == "" || options.stopBits == "") {
+      console.error("Parameters 'port', 'baudRate', 'parity', 'dataBits' and 'stopBit' are required since version 2 to instantiate the module");
     }
 
-    debug.setDebugMode(options.debug);
+    if (options.debug) {
+        debug.setDebugMode(true);
+    }
 
+    // Overwrite serialport module when emulator mode is set
     if (options.emulator) {
-        serialPort = require('./lib/emulateSerialport');
-        serialPort.setEmulatorOverrides(options.emulatorOverrides);
+        SerialPort = require('./lib/emulateSerialport');
+        SerialPort.setEmulatorOverrides(options.emulatorOverrides);
     }
 
-    constructor = this;
+    constructor = this; // TODO???????????????????????????????
 
     EventEmitter.call(this);
-
-    // Either force a specific port (with specific configuration) or automatically discover it
-    if (options && options.serialPort) {
-        autodiscoverList[0] = {
-            port: options.serialPort.port,
-            baudRate: options.serialPort.baudRate,
-            parity: options.serialPort.parity,
-            dataBits: options.serialPort.dataBits,
-            stopBits: options.serialPort.stopBits
-        };
-
-        _setupSerialConnection();
-    } else {
-        serialPort.list()
-            .then(ports => {
-                // Create the auto discovery list with each of the possible serialport configurations per port found
-                for (let i = 0; i < ports.length; i++) {
-                    for (let j = 0; j < config.serialPort.length; j++) {
-                        autodiscoverList.push({
-                            port: ports[i].comName,
-                            baudRate: config.serialPort[j].baudRate,
-                            parity: config.serialPort[j].parity,
-                            dataBits: config.serialPort[j].dataBits,
-                            stopBits: config.serialPort[j].stopBits
-                        });
-                    }
-                }
-
-                debug.logAutodiscoverList(autodiscoverList);
-
-                _setupSerialConnection();
-            })
-            .catch(err => {
-                console.error('Serialports could not be listed: ' + err);
-            });
-    }
+    
+    _setupSerialConnection(options.port, options.baudRate, options.parity, options.dataBits, options.stopBits);
+    
+    
+    
+    
+//
+//    // Either force a specific port (with specific configuration) or automatically discover it
+//    if (options && options.serialPort) {
+//        
+//
+//        _setupSerialConnection();
+//    } else {
+//        SerialPort.list()
+//            .then(ports => {
+//                // Create the auto discovery list with each of the possible serialport configurations per port found
+//                for (let i = 0; i < ports.length; i++) {
+//                    for (let j = 0; j < config.serialPort.length; j++) {
+//                        autodiscoverList.push({
+//                            port: ports[i].comName,
+//                            baudRate: config.serialPort[j].baudRate,
+//                            parity: config.serialPort[j].parity,
+//                            dataBits: config.serialPort[j].dataBits,
+//                            stopBits: config.serialPort[j].stopBits
+//                        });
+//                    }
+//                }
+//
+//                debug.logAutodiscoverList(autodiscoverList);
+//
+//                _setupSerialConnection();
+//            })
+//            .catch(err => {
+//                console.error('Serialports could not be listed: ' + err);
+//            });
+//    }
 }
 
 util.inherits(P1Reader, EventEmitter);
@@ -79,12 +81,8 @@ module.exports = P1Reader;
 /**
  * Setup serial port connection
  */
-function _setupSerialConnection() {
-    const currentPortConfig = autodiscoverList[0];
-
-    debug.log('Trying to connect to Smart Meter via port: ' + currentPortConfig.port
-        + ' (BaudRate: ' + currentPortConfig.baudRate + ', Parity: ' + currentPortConfig.parity + ', Databits: '
-        + currentPortConfig.dataBits + 'Stopbits: ' + currentPortConfig.stopBits + ')');
+function _setupSerialConnection(port, baudRate, parity, dataBits, stopBits) {
+    debug.log('Trying to connect to Smart Meter via port: ' + port + ' (BaudRate: ' + baudRate + ', Parity: ' + parity + ', Databits: ' + dataBits + 'Stopbits: ' + stopBits + ')');
 
     // Go to the next port if this one didn't respond within the timeout limit
     timer = setTimeout(() => {
@@ -94,11 +92,11 @@ function _setupSerialConnection() {
     }, config.connectionSetupTimeout);
 
     // Open serial port connection
-    const sp = new serialPort(currentPortConfig.port, {
-        baudRate: currentPortConfig.baudRate,
-        parity: currentPortConfig.parity,
-        dataBits: currentPortConfig.dataBits,
-        stopBits: currentPortConfig.stopBits
+    const sp = new SerialPort(port, {
+        baudRate: baudRate,
+        parity: parity,
+        dataBits: dataBits,
+        stopBits: stopBits
     });
 
     let received = '';
@@ -106,7 +104,7 @@ function _setupSerialConnection() {
     sp.on('open', () => {
         debug.log('Serial connection established');
 
-        sp.on('data', (data) => {
+        sp.on('data', data => {
             received += data.toString();
 
             const startCharPos = received.indexOf(config.startCharacter);
@@ -119,16 +117,11 @@ function _setupSerialConnection() {
 
                 received = '';
 
-                // Verify if connected to the correct serial port at initialization
-                if (!serialPortUsed) {
-                    if (parsedPacket.timestamp !== null) {
-                        debug.log('Connection with Smart Meter established');
-                        serialPortUsed = currentPortConfig.port;
-
-                        constructor.emit('connected', currentPortConfig);
-                    } else {
-                        _tryNextSerialPort();
-                    }
+                // Emit a 'connected' event when we have actually successfully parsed our first data
+                if (!connectedToSmartMeter && parsedPacket.timestamp !== null) {
+                    debug.log('Connection with Smart Meter established');
+                    constructor.emit('connected');
+                    connectedToSmartMeter = true;
                 }
 
                 debug.writeToLogFile(packet, parsedPacket);
@@ -145,33 +138,12 @@ function _setupSerialConnection() {
     });
 
     sp.on('error', (error) => {
-        // Reject this port if we haven't found the correct port yet
-        if (!serialPortUsed) {
-            _tryNextSerialPort();
-        } else {
-            // Only emit errors after we have established a connection with the Smart Meter
-            debug.log('Error emitted: ' + error);
-
-            constructor.emit('error', error);
-        }
+        debug.log('Error emitted: ' + error);
+        constructor.emit('error', error);
     });
 
     sp.on('close', () => {
+        debug.log('Connection closed');
         constructor.emit('close');
     });
-}
-
-/**
- * Try the next serial port if available
- */
-function _tryNextSerialPort() {
-    clearTimeout(timer);
-    autodiscoverList.shift();
-
-    if (autodiscoverList.length > 0) {
-        debug.log('Smart Meter not found yet, trying another port / configuration...');
-        _setupSerialConnection();
-    } else {
-        console.error('Could not find a Smart Meter');
-    }
 }
