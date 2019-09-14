@@ -485,8 +485,6 @@ describe("parsePacket", function() {
         "(02888.297)\r\n";
 
         const parsedPacket = parsePacket(packet);
-
-        console.log(parsedPacket);
         
         const expectedOutputObject = {
             "meterType": "KMP5 ABCD123456789012",
