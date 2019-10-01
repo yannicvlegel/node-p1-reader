@@ -12,11 +12,11 @@ const config = require('./config/config.json');
 
 function P1Reader(options) {
     if (typeof options !== 'object' || options.port == "" || options.baudRate == "" || options.parity == "" || options.dataBits == "" || options.stopBits == "") {
-      console.error("Parameters 'port', 'baudRate', 'parity', 'dataBits' and 'stopBit' are required since version 2 to instantiate the module");
+        console.error("Parameters 'port', 'baudRate', 'parity', 'dataBits' and 'stopBit' are required since version 2.x.x to instantiate the module");
     }
 
     if (options.debug) {
-        debug.setDebugMode(true);
+        debug.enableDebugMode();
     }
 
     // Overwrite serialport module when emulator mode is set
