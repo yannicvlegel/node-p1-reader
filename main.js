@@ -4,7 +4,6 @@ let SerialPort = require('serialport');
 
 let connectedToSmartMeter = false;
 let constructor;
-let timer;
 
 const parsePacket = require('./lib/parsePacket');
 const debug = require('./lib/debug');
@@ -68,13 +67,6 @@ function P1Reader(options) {
 
 util.inherits(P1Reader, EventEmitter);
 
-/**
- * Retrieve the name of the serial port being used
- */
-P1Reader.prototype.getSerialPort = function () {
-    return serialPortUsed;
-};
-
 module.exports = P1Reader;
 
 
@@ -82,14 +74,7 @@ module.exports = P1Reader;
  * Setup serial port connection
  */
 function _setupSerialConnection(port, baudRate, parity, dataBits, stopBits) {
-    debug.log('Trying to connect to Smart Meter via port: ' + port + ' (BaudRate: ' + baudRate + ', Parity: ' + parity + ', Databits: ' + dataBits + 'Stopbits: ' + stopBits + ')');
-
-    // Go to the next port if this one didn't respond within the timeout limit
-    timer = setTimeout(() => {
-        if (!serialPortUsed) {
-            _tryNextSerialPort();
-        }
-    }, config.connectionSetupTimeout);
+    debug.log('Trying to connect to Smart Meter via port: ' + port + ' (BaudRate: ' + baudRate + ', Parity: ' + parity + ', Databits: ' + dataBits + ', Stopbits: ' + stopBits + ')');
 
     // Open serial port connection
     const sp = new SerialPort(port, {

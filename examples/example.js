@@ -27,7 +27,7 @@ config.debug = true;
 
 const p1Reader = new P1Reader(config);
 
-p1Reader.on('connected', portConfig => {
+p1Reader.on('connected', () => {
     console.log('Connection with the Smart Meter has been established!');
 });
 
