@@ -485,11 +485,16 @@ describe("parsePacket", function() {
         "(02888.297)\r\n";
 
         const parsedPacket = parsePacket(packet);
+        console.log(parsedPacket);
+
+        // Set timestamp of the expected output to now since for DSMR2.2 we the server determines the timestamp
+        const now = new Date();
+        now.setMilliseconds(0);
         
         const expectedOutputObject = {
             "meterType": "KMP5 ABCD123456789012",
             "version": "22",
-            "timestamp": "2016-05-20T19:31:43.000Z", // TODO -----------
+            "timestamp": now.toISOString(),
             "equipmentId": "1234567890123456789012345678901234",
             "textMessage": {
                 "codes": "12345678",
@@ -596,11 +601,6 @@ describe("parsePacket", function() {
                 "valvePosition": null
             }
         };
-
-        // Set timestamp of the expected output to now since for DSMR2.2 we the server determines the timestamp
-        const now = new Date();
-        now.setMilliseconds(0);
-        expectedOutputObject.timestamp = now.toISOString();
 
         expect(parsedPacket).toEqual(expectedOutputObject);
     });
