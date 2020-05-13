@@ -84,10 +84,17 @@ function _setupSerialConnection(port, baudRate, parity, dataBits, stopBits) {
         stopBits: stopBits
     });
 
+    const connectionTimeout = setTimeout(() => {
+        if (!connectedToSmartMeter) {
+            debug.log('Could not establish a connection with the Smart Meter (connection timeout)');
+            constructor.emit('error', 'Connection timeout');
+        }
+    }, 11000); // Set time for 11 seconds, since we should receive at least one message every 10 seconds from the Smart Meter
+
     let received = '';
 
     sp.on('open', () => {
-        debug.log('Serial connection established');
+        debug.log('Serialport connection opened, trying to receive data from the Smart Meter...');
 
         sp.on('data', data => {
             received += data.toString();
@@ -107,6 +114,7 @@ function _setupSerialConnection(port, baudRate, parity, dataBits, stopBits) {
                     debug.log('Connection with Smart Meter established');
                     constructor.emit('connected');
                     connectedToSmartMeter = true;
+                    clearTimeout(connectionTimeout);
                 }
 
                 debug.writeToLogFile(packet, parsedPacket);
