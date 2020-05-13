@@ -24,51 +24,16 @@ function P1Reader(options) {
         SerialPort.setEmulatorOverrides(options.emulatorOverrides);
     }
 
-    constructor = this; // TODO???????????????????????????????
+    constructor = this;
 
     EventEmitter.call(this);
     
     _setupSerialConnection(options.port, options.baudRate, options.parity, options.dataBits, options.stopBits);
-    
-    
-    
-    
-//
-//    // Either force a specific port (with specific configuration) or automatically discover it
-//    if (options && options.serialPort) {
-//        
-//
-//        _setupSerialConnection();
-//    } else {
-//        SerialPort.list()
-//            .then(ports => {
-//                // Create the auto discovery list with each of the possible serialport configurations per port found
-//                for (let i = 0; i < ports.length; i++) {
-//                    for (let j = 0; j < config.serialPort.length; j++) {
-//                        autodiscoverList.push({
-//                            port: ports[i].comName,
-//                            baudRate: config.serialPort[j].baudRate,
-//                            parity: config.serialPort[j].parity,
-//                            dataBits: config.serialPort[j].dataBits,
-//                            stopBits: config.serialPort[j].stopBits
-//                        });
-//                    }
-//                }
-//
-//                debug.logAutodiscoverList(autodiscoverList);
-//
-//                _setupSerialConnection();
-//            })
-//            .catch(err => {
-//                console.error('Serialports could not be listed: ' + err);
-//            });
-//    }
 }
 
 util.inherits(P1Reader, EventEmitter);
 
 module.exports = P1Reader;
-
 
 /**
  * Setup serial port connection

@@ -231,6 +231,7 @@ This documentation was used as a reference to create and verify this module.
 * Updating "node-serialport" and "jasmine" dependencies to latest version
 * Applying ES6 standards to code
 * Improved accuracy of parsing messages by fixing assumption that header is always followed by an empty line, which is not the case for many types of smart meters
+* Improved documentation and example script
 
 1.5.1
 
