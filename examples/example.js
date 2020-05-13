@@ -1,11 +1,12 @@
 const P1Reader = require('../main');
 const fs = require('fs');
 
+// Set the serialport configuration for your specific type of Smart Meter, look at the README for more details
 let config = {
     port: '/dev/ttyUSB0',
-    baudRate: 9600,
-    parity: "even",
-    dataBits: 7,
+    baudRate: 115200,
+    parity: "none",
+    dataBits: 8,
     stopBits: 1
 };
 

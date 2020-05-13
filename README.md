@@ -26,17 +26,52 @@ p1Reader.on('error', err => {
 });
 ```
 
-## Force specific serial port
+## Configuration
 
 If for some reason the automatic serial port discovery does not work it is possible to force a certain port with a specific configuration.
 
 Provide a `serialPort` object as option parameter to set a specific serial port configuration. The object should contain all of the following field:
 
-* `port` : Portname of the serial port on which the Smart Meter is connected (e.g. '/dev/ttyUSB0')
+* `port` : Path of the serial port to which the Smart Meter is connected (e.g. '/dev/ttyUSB0')
 * `baudRate` : Baud rate of the serial port (e.g. '9600' or '115200')
 * `parity` : Parity of the serial port (e.g. 'none' or 'even')
 * `dataBits` : Number of data bits used for the serial port (e.g. '7' or '8')
 * `stopBits` : Number of stop bits used for the serial port (e.g. '1')
+
+### How to find the serial port location?
+
+Usually, you will need a "Smart Meter cable" that connects the RJ-11 connector of the Smart Meter to a USB port of your device, e.g. a Raspberry Pi.
+Once the cable is connected you can run `dmesg | grep tty` on a Linux based system to find details about the path of the serial port to which the Smart Meter is connected. The response of this command should return something like "USB Serial Device converter now attached to ttyUSB0", which will probably mean the path to your USB device is at "/dev/ttyUSB0".
+
+Common locations that you can try: `/dev/ttyUSB0`, `/dev/ttyUSB1`, `/dev/ttyAMA0` or `/dev/ttyAMA1`
+
+### Known configurations per Smart Meter Type
+
+There are many different types of Smart Meters in the market, which have different configurations. To be able to read data from the Smart Meter you need to find the serialport configuration of your specific type of Smart Meter.
+
+The table below is based on the [extensive analysis already done by Domoticx](http://domoticx.com/p1-poort-slimme-meter-hardware/) on the different types of Smart Meter hardware:
+
+| Brand        | Model         | DSMR version        | Header  | Baud Rate | Parity | Data Bits | Stop Bits |
+| ------------ | ------------- | ------------------- | ------- | --------- | ------ | --------- | --------- |
+| Iskra        | ME 382        | 2.2                 | /ISk5\  | 9600      | Even   | 7         | 1         |
+| Iskra        | MT 382        | 2.2                 | /ISk5\  | 9600      | Even   | 7         | 1         |
+| Iskra        | AM 550        | 5.0                 | /ISk5\  | 115200    | None   | 8         | 1         |
+| Kaifa        | E0003         | 4.0                 | KFM5    | 115200    | None   | 8         | 1         |
+| Kaifa        | E0025         | 4.0                 | /KFM5   | 115200    | None   | 8         | 1         |
+| Kaifa        | MA105         | 4.0 (4.0.5 / 4.0.7) | /KFM5   | 115200    | None   | 8         | 1         |
+| Kaifa        | MA105C        | 4.2.2               | /KFM5   | 115200    | None   | 8         | 1         |
+| Kaifa        | MA304         | 4.0 (4.0.5 / 4.0.7) | /KFM5   | 115200    | None   | 8         | 1         |
+| Kaifa        | MA304C        | 4.2.2               | /KFM5   | 115200    | None   | 8         | 1         |
+| Kamstrup     | 162           | 2.2                 | /KMP5   | 9600      | Even   | 7         | 1         |
+| Kamstrup     | 351           | 2.2                 | /KMP5   | 9600      | Even   | 7         | 1         |
+| Kamstrup     | 382           | 2.2                 | /KMP5   | 9600      | Even   | 7         | 1         |
+| Landis + Gyr | E350 (ZCF100) | 4.0                 | /XMX5LG | 115200    | None   | 8         | 1         |
+| Landis + Gyr | E350 (ZCF100) | 4.2                 | /XMX5LG | 115200    | Even   | 7         | 1         |
+| Landis + Gyr | E350 (ZCF110) | 4.2                 | /XMX5LG | 115200    | None   | 8         | 1         |
+| Landis + Gyr | E350 (ZFF100) | 4.0                 | /XMX5LG | 115200    | None   | 8         | 1         |
+| Landis + Gyr | E350 (ZMF100) | 4.0                 | /XMX5LG | 115200    | None   | 8         | 1         |
+| Landis + Gyr | E360 (T11142) | 5.0                 | /XMX5LG | 115200    | None   | 8         | 1         |
+| Sagemcom     | T210-D ESMR5  | 5.0                 | /Ene5   | 115200    | None   | 8         | 1         |
 
 ## Events
 
