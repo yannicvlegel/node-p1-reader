@@ -485,9 +485,8 @@ describe("parsePacket", function() {
         "(02888.297)\r\n";
 
         const parsedPacket = parsePacket(packet);
-        console.log(parsedPacket);
 
-        // Set timestamp of the expected output to now since for DSMR2.2 we the server determines the timestamp
+        // Set timestamp of the expected output to now, since for DSMR2.2 the server determines the timestamp
         const now = new Date();
         now.setMilliseconds(0);
         
@@ -597,6 +596,144 @@ describe("parsePacket", function() {
                 "equipmentId": "2345678901234567890123456789012345",
                 "timestamp": "2019-09-14T10:00:00.000Z",
                 "reading": 2888.297,
+                "unit": "m3",
+                "valvePosition": null
+            }
+        };
+
+        expect(parsedPacket).toEqual(expectedOutputObject);
+    });
+
+    it("should be able to parse an example DSMR2.2 packet of a XMX5 meter", function() {
+        const packet = "/XMX5XMXABCE123456789\r\n" +
+        "\r\n" +
+        "0-0:96.1.1(4B414145303031343123456789012345)\r\n" +
+        "1-0:1.8.1(03432.896*kWh)\r\n" +
+        "1-0:1.8.2(03492.086*kWh)\r\n" +
+        "1-0:2.8.1(02243.242*kWh)\r\n" +
+        "1-0:2.8.2(05196.924*kWh)\r\n" +
+        "0-0:96.14.0(0001)\r\n" +
+        "1-0:1.7.0(0000.00*kW)\r\n" +
+        "1-0:2.7.0(0001.34*kW)\r\n" +
+        "0-0:96.13.1()\r\n" +
+        "0-0:96.13.0()\r\n" +
+        "0-1:96.1.0(3238303131303038333123456789012345)\r\n" +
+        "0-1:24.1.0(03)\r\n" +
+        "0-1:24.3.0(200509150000)(08)(60)(1)(0-1:24.2.0)(m3)\r\n" +
+        "(05933.694)";
+
+        const parsedPacket = parsePacket(packet);
+
+        // Set timestamp of the expected output to now, since for DSMR2.2 the server determines the timestamp
+        const now = new Date();
+        now.setMilliseconds(0);
+        
+        const expectedOutputObject = {
+            "meterType": "XMX5XMXABCE123456789",
+            "version": "22",
+            "timestamp": now.toISOString(),
+            "equipmentId": "4B414145303031343123456789012345",
+            "textMessage": {
+                "codes": "",
+                "message": ""
+            },
+            "electricity": {
+                "received": {
+                    "tariff1": {
+                        "reading": 3432.896,
+                        "unit": "kWh"
+                    },
+                    "tariff2": {
+                        "reading": 3492.086,
+                        "unit": "kWh"
+                    },
+                    "actual": {
+                        "reading": 0,
+                        "unit": "kW"
+                    }
+                },
+                "delivered": {
+                    "tariff1": {
+                        "reading": 2243.242,
+                        "unit": "kWh"
+                    },
+                    "tariff2": {
+                        "reading": 5196.924,
+                        "unit": "kWh"
+                    },
+                    "actual": {
+                        "reading": 1.34,
+                        "unit": "kW"
+                    }
+                },
+                "tariffIndicator": 1,
+                "threshold": null,
+                "switchPosition": null,
+                "numberOfPowerFailures": null,
+                "numberOfLongPowerFailures": null,
+                "longPowerFailureLog": null,
+                "voltageSags": {
+                    "L1": null,
+                    "L2": null,
+                    "L3": null
+                },
+                "voltageSwell": {
+                    "L1": null,
+                    "L2": null,
+                    "L3": null
+                },
+                "instantaneous": {
+                    "current": {
+                        "L1": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L2": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L3": {
+                            "reading": null,
+                            "unit": null
+                        }
+                    },
+                    "power": {
+                        "positive": {
+                            "L1": {
+                                "reading": null,
+                                "unit": null
+                            },
+                            "L2": {
+                                "reading": null,
+                                "unit": null
+                            },
+                            "L3": {
+                                "reading": null,
+                                "unit": null
+                            }
+                        },
+                        "negative": {
+                            "L1": {
+                                "reading": null,
+                                "unit": null
+                            },
+                            "L2": {
+                                "reading": null,
+                                "unit": null
+                            },
+                            "L3": {
+                                "reading": null,
+                                "unit": null
+                            }
+                        }
+                    }
+                }
+            },
+            "gas": {
+                "deviceType": "03",
+                "equipmentId": "3238303131303038333123456789012345",
+                "timestamp": "2020-05-09T15:00:00.000Z",
+                "reading": 5933.694,
                 "unit": "m3",
                 "valvePosition": null
             }
