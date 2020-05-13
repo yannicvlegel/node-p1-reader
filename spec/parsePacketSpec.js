@@ -143,7 +143,7 @@ describe("parsePacket", function() {
         expect(parsedPacket.timestamp).toEqual("2015-12-31T00:00:00.000Z");
     });
 
-    it("should be able to parse an example packet of a KFM5KAIFA meter", function() {
+    it("should be able to parse an example DSMR4.0 packet of a KFM5KAIFA meter", function() {
         const packet = defaultHeader +
             "1-3:0.2.8(42)\r\n" +
             "0-0:1.0.0(160520213143S)\r\n" +
@@ -910,6 +910,177 @@ describe("parsePacket", function() {
                 "reading": 12785.123,
                 "unit": "m3",
                 "valvePosition": "1"
+            }
+        };
+
+        expect(parsedPacket).toEqual(expectedOutputObject);
+    });
+
+    it("should be able to parse an example DSMR5.0 packet of a Sagemcom T210-D ESMR5 meter", function() {
+        const packet = "/Ene5\T210-D ESMR5.0\r\n" +
+        "\r\n" +
+        "1-3:0.2.8(50)\r\n" +
+        "0-0:1.0.0(200513132834S)\r\n" +
+        "0-0:96.1.1(4530303438303030303123456789012345)\r\n" +
+        "1-0:1.8.1(006166.961*kWh)\r\n" +
+        "1-0:1.8.2(004386.431*kWh)\r\n" +
+        "1-0:2.8.1(000000.111*kWh)\r\n" +
+        "1-0:2.8.2(000000.000*kWh)\r\n" +
+        "0-0:96.14.0(0002)\r\n" +
+        "1-0:1.7.0(00.165*kW)\r\n" +
+        "1-0:2.7.0(00.000*kW)\r\n" +
+        "0-0:96.7.21(00608)\r\n" +
+        "0-0:96.7.9(00008)\r\n" +
+        "1-0:99.97.0(2)(0-0:96.7.19)(180823083010S)(0000001375*s)(171006104702S)(0000000747*s)\r\n" +
+        "1-0:32.32.0(00003)\r\n" +
+        "1-0:52.32.0(00003)\r\n" +
+        "1-0:72.32.0(00002)\r\n" +
+        "1-0:32.36.0(00000)\r\n" +
+        "1-0:52.36.0(00000)\r\n" +
+        "1-0:72.36.0(00000)\r\n" +
+        "0-0:96.13.0()\r\n" +
+        "1-0:32.7.0(234.0*V)\r\n" +
+        "1-0:52.7.0(233.0*V)\r\n" +
+        "1-0:72.7.0(231.0*V)\r\n" +
+        "1-0:31.7.0(000*A)\r\n" +
+        "1-0:51.7.0(000*A)\r\n" +
+        "1-0:71.7.0(000*A)\r\n" +
+        "1-0:21.7.0(00.067*kW)\r\n" +
+        "1-0:41.7.0(00.000*kW)\r\n" +
+        "1-0:61.7.0(00.098*kW)\r\n" +
+        "1-0:22.7.0(00.000*kW)\r\n" +
+        "1-0:42.7.0(00.000*kW)\r\n" +
+        "1-0:62.7.0(00.000*kW)\r\n" +
+        "0-1:24.1.0(003)\r\n" +
+        "0-1:96.1.0(4730303533303033363123456789012345)\r\n" +
+        "0-1:24.2.1(200513132500S)(03917.977*m3)";
+
+        const parsedPacket = parsePacket(packet);
+        
+        const expectedOutputObject = {
+            "meterType": "Ene5\T210-D ESMR5.0",
+            "version": "50",
+            "timestamp": "2020-05-13T13:28:34.000Z",
+            "equipmentId": "4530303438303030303123456789012345",
+            "textMessage": {
+                "codes": null,
+                "message": ""
+            },
+            "electricity": {
+                "received": {
+                    "tariff1": {
+                        "reading": 6166.961,
+                        "unit": "kWh"
+                    },
+                    "tariff2": {
+                        "reading": 4386.431,
+                        "unit": "kWh"
+                    },
+                    "actual": {
+                        "reading": 0.165,
+                        "unit": "kW"
+                    }
+                },
+                "delivered": {
+                    "tariff1": {
+                        "reading": 0.111,
+                        "unit": "kWh"
+                    },
+                    "tariff2": {
+                        "reading": 0,
+                        "unit": "kWh"
+                    },
+                    "actual": {
+                        "reading": 0,
+                        "unit": "kW"
+                    }
+                },
+                "tariffIndicator": 2,
+                "threshold": null,
+                "switchPosition": null,
+                "numberOfPowerFailures": 608,
+                "numberOfLongPowerFailures": 8,
+                "longPowerFailureLog": {
+                    "count": 2,
+                    "log": [
+                        {
+                            "startOfFailure": "2018-08-23T08:07:15.000Z",
+                            "endOfFailure": "2018-08-23T08:30:10.000Z",
+                            "duration": 1375,
+                            "unit": "s"
+                        },
+                        {
+                            "startOfFailure": "2017-10-06T10:34:35.000Z",
+                            "endOfFailure": "2017-10-06T10:47:02.000Z",
+                            "duration": 747,
+                            "unit": "s"
+                        }
+                    ]
+                },
+                "voltageSags": {
+                    "L1": 3,
+                    "L2": 3,
+                    "L3": 2
+                },
+                "voltageSwell": {
+                    "L1": 0,
+                    "L2": 0,
+                    "L3": 0
+                },
+                "instantaneous": {
+                    "current": {
+                        "L1": {
+                            "reading": 0,
+                            "unit": "A"
+                        },
+                        "L2": {
+                            "reading": 0,
+                            "unit": "A"
+                        },
+                        "L3": {
+                            "reading": 0,
+                            "unit": "A"
+                        }
+                    },
+                    "power": {
+                        "positive": {
+                            "L1": {
+                                "reading": 0.067,
+                                "unit": "kW"
+                            },
+                            "L2": {
+                                "reading": 0,
+                                "unit": "kW"
+                            },
+                            "L3": {
+                                "reading": 0.098,
+                                "unit": "kW"
+                            }
+                        },
+                        "negative": {
+                            "L1": {
+                                "reading": 0,
+                                "unit": "kW"
+                            },
+                            "L2": {
+                                "reading": 0,
+                                "unit": "kW"
+                            },
+                            "L3": {
+                                "reading": 0,
+                                "unit": "kW"
+                            }
+                        }
+                    }
+                }
+            },
+            "gas": {
+                "deviceType": "003",
+                "equipmentId": "4730303533303033363123456789012345",
+                "timestamp": "2020-05-13T13:25:00.000Z",
+                "reading": 3917.977,
+                "unit": "m3",
+                "valvePosition": null
             }
         };
 
