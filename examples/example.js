@@ -28,11 +28,11 @@ config.debug = true;
 const p1Reader = new P1Reader(config);
 
 p1Reader.on('connected', () => {
-    console.log('Connection with the Smart Meter has been established!');
+    console.log('[My Example App]: Connection with the Smart Meter has been established via p1-reader!');
 });
 
 p1Reader.on('reading', data => {
-    console.log('Reading received: currently consuming ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
+    console.log('[My Example App]: Reading received via p1-reader, we are currently consuming ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
 
     // Write electricity totals and actual value to CSV
     const csvOutput = '' +
@@ -50,19 +50,19 @@ p1Reader.on('reading', data => {
 });
 
 p1Reader.on('reading-raw', data => {
-    // If you are interested in viewing the unparsed data that was received at the serial port uncomment the line below
+    // If you are interested in viewing the unparsed raw data that was received at the serial port uncomment the line below
     // console.log(data);
 });
 
 p1Reader.on('error', error => {
-    console.log(error);
+    console.log('[My Example App]: p1-reader responded with the error: ' + error);
 });
 
 p1Reader.on('close', () => {
-    console.log('Connection closed');
+    console.log('[My Example App]: Connection closed by p1-reader');
 });
 
 // Handle all uncaught errors without crashing
 process.on('uncaughtException', error => {
-    console.error(error);
+    console.error('[My Example App]: an uncaught error occurred: ' + error);
 });
