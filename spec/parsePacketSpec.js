@@ -82,6 +82,20 @@ describe("parsePacket", function() {
                                 unit: null
                         }
                     },
+                    voltage: {
+                        L1: {
+                            reading: null,
+                            unit: null
+                        },
+                        L2: {
+                            reading: null,
+                            unit: null
+                        },
+                        L3: {
+                            reading: null,
+                            unit: null
+                        }
+                    },
                     power: {
                         positive: {
                             L1: {
@@ -260,6 +274,20 @@ describe("parsePacket", function() {
                             "unit": "A"
                         }
                     },
+                    "voltage": {
+                        "L1": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L2": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L3": {
+                            "reading": null,
+                            "unit": null
+                        }
+                    },
                     "power": {
                         "positive": {
                             "L1": {
@@ -422,6 +450,20 @@ describe("parsePacket", function() {
                             "unit": "A"
                         }
                     },
+                    "voltage": {
+                        "L1": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L2": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L3": {
+                            "reading": null,
+                            "unit": null
+                        }
+                    },
                     "power": {
                         "positive": {
                             "L1": {
@@ -546,6 +588,20 @@ describe("parsePacket", function() {
                 },
                 "instantaneous": {
                     "current": {
+                        "L1": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L2": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L3": {
+                            "reading": null,
+                            "unit": null
+                        }
+                    },
+                    "voltage": {
                         "L1": {
                             "reading": null,
                             "unit": null
@@ -684,6 +740,20 @@ describe("parsePacket", function() {
                 },
                 "instantaneous": {
                     "current": {
+                        "L1": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L2": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L3": {
+                            "reading": null,
+                            "unit": null
+                        }
+                    },
+                    "voltage": {
                         "L1": {
                             "reading": null,
                             "unit": null
@@ -871,6 +941,20 @@ describe("parsePacket", function() {
                             "unit": "A"
                         }
                     },
+                    "voltage": {
+                        "L1": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L2": {
+                            "reading": null,
+                            "unit": null
+                        },
+                        "L3": {
+                            "reading": null,
+                            "unit": null
+                        }
+                    },
                     "power": {
                         "positive": {
                             "L1": {
@@ -1040,6 +1124,20 @@ describe("parsePacket", function() {
                         "L3": {
                             "reading": 0,
                             "unit": "A"
+                        }
+                    },
+                    "voltage": {
+                        "L1": {
+                            "reading": 234,
+                            "unit": "V"
+                        },
+                        "L2": {
+                            "reading": 233,
+                            "unit": "V"
+                        },
+                        "L3": {
+                            "reading": 231,
+                            "unit": "V"
                         }
                     },
                     "power": {

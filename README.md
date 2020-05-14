@@ -176,6 +176,20 @@ The `reading` event returns the following data structure:
                     "unit": "A"
                 }
             },
+            "voltage": {
+                "L1": {
+                    "reading": 231,
+                    "unit": "V"
+                },
+                "L2": {
+                    "reading": 232,
+                    "unit": "V"
+                },
+                "L3": {
+                    "reading": 233,
+                    "unit": "V"
+                }
+            },
             "power": {
                 "positive": {
                     "L1": {
@@ -258,6 +272,10 @@ The official DSMR Smart Meter P1 interface documentation from Netbeheer Nederlan
 This documentation was used as a reference to create and verify this module.
 
 ## Changelog
+
+2.0.1
+
+* Adding support for DSMR5.0, which adds instantaneous voltages measurement on all 3 phases (found at instantaneous->voltage->L1/L2/L3)
 
 2.0.0
 
