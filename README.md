@@ -7,7 +7,7 @@ Data is parsed according to the official DSMR4.0 specification by Netbeheer Nede
 
 ## How to use
 
-The serial connection is automatically opened on initiating the P1-Reader. Use the `reading` event to start receiving data, which should come in every 10 seconds.
+The serial connection is automatically opened on initiating the P1-Reader. Use the `reading` event to start receiving data, which should come in every 10 seconds (for DSMR <5.0) or every second (for DSMR >=5.0).
 
 ```javascript
 const P1Reader = require('p1-reader');
