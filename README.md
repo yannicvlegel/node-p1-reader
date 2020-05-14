@@ -25,6 +25,9 @@ p1Reader.on('error', err => {
     console.log('Error while reading: ' + err);
 });
 ```
+### Example project
+
+An example project of how to use this module to capture data from the Smart Meter and push it to an InfluxDB database can be found here: https://github.com/ruudverheijden/p1-to-influxdb
 
 ## Configuration
 
