@@ -1,3 +1,5 @@
+[![NPM](https://nodei.co/npm/p1-reader.png?compact=true)](https://www.npmjs.com/package/p1-reader)
+
 # Node.js P1-Reader
 
 Node.js package for reading and parsing data from the P1 port of a Dutch Smart Meter.
