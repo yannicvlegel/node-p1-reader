@@ -2,12 +2,11 @@
 
 # Node.js P1-Reader
 
-Node.js package for reading and parsing data from the P1 port of a Dutch Smart Meter.
-Data is parsed according to the official DSMR4.0 specification by Netbeheer Nederland, which is currently used by most popular Kaifa and Landis+Gyr Smart Meters.
+Node.js package for reading and parsing data from the P1 port of a Smart Meter. Current, both Dutch (DSMR 2.2, 4.x and 5.x) and Belgian (eMUCs 1.4) Smart Meters are supported.
 
 ## How to use
 
-The serial connection is automatically opened on initiating the P1-Reader. Use the `reading` event to start receiving data, which should come in every 10 seconds (for DSMR <5.0) or every second (for DSMR >=5.0).
+The serial connection is automatically opened on initiating the P1-Reader. Use the `reading` event to start receiving data, which should come in every 10 seconds (for DSMR <5.0) or every second (for DSMR >=5.0 and eMUCs).
 
 ```javascript
 const P1Reader = require('p1-reader');
@@ -27,6 +26,7 @@ p1Reader.on('error', err => {
     console.log('Error while reading: ' + err);
 });
 ```
+
 ### Example project
 
 An example project of how to use this module to capture data from the Smart Meter and push it to an InfluxDB database can be found here: https://github.com/ruudverheijden/p1-to-influxdb
@@ -50,7 +50,7 @@ Once the cable is connected you can run `dmesg | grep tty` on a Linux based syst
 
 Common locations that you can try: `/dev/ttyUSB0`, `/dev/ttyUSB1`, `/dev/ttyAMA0` or `/dev/ttyAMA1`
 
-### Known configurations per Smart Meter Type
+### Known configurations per Dutch DSMR Smart Meter Type
 
 There are many different types of Smart Meters in the market, which have different configurations. To be able to read data from the Smart Meter you need to find the serialport configuration of your specific type of Smart Meter.
 
@@ -77,6 +77,10 @@ The table below is based on the [extensive analysis already done by Domoticx](ht
 | Landis + Gyr | E350 (ZMF100) | 4.0                 | /XMX5LG | 115200    | None   | 8         | 1         |
 | Landis + Gyr | E360 (T11142) | 5.0                 | /XMX5LG | 115200    | None   | 8         | 1         |
 | Sagemcom     | T210-D ESMR5  | 5.0                 | /Ene5   | 115200    | None   | 8         | 1         |
+
+### Known configurations per Belgian eMUCs Smart Meter Type
+
+No overview yet available. Please create a Pull Request if you find one or have a known working config yourself.
 
 ## Events
 
@@ -270,13 +274,24 @@ Provide the `debug` option parameter to run the module in debug mode:
 const p1Reader = new P1Reader({debug: true});
 ```
 
-## Official DSMR documentation
+## Official documentation
+
+### Dutch Smart Meter
 
 The official DSMR Smart Meter P1 interface documentation from Netbeheer Nederland can be found here:
 <https://www.netbeheernederland.nl/dossiers/slimme-meter-15/documenten>
 This documentation was used as a reference to create and verify this module.
 
+### Belgian eMUCs
+
+The Belgian smart meter standard is based on the Dutch DSMR 5.X P1 standard.
+The official documentation can be found here: <https://maakjemeterslim.be/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdUlCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--98ba80caddbb098bbc44b81e9be0a92a6637bef3/e-MUCS_P1_Ed_1_4.pdf?disposition=attachment>
+
 ## Changelog
+
+2.0.2
+
+* Adding support for Belgian smart meters following the eMUCs specification
 
 2.0.1
 
