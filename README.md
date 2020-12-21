@@ -293,6 +293,10 @@ The official documentation can be found here: <https://maakjemeterslim.be/rails/
 
 ## Changelog
 
+2.0.4
+
+* Fixing Jasmine test cases
+
 2.0.3
 
 * Small fix to make data structure consistent for eMUCs fuseThreshold
