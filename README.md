@@ -140,6 +140,10 @@ The `reading` event returns the following data structure:
             "value": 16.1,
             "unit": "kW"
         },
+        "fuseThreshold": {
+            "value": 10,
+            "unit": "A"
+        },
         "switchPosition": "1",
         "numberOfPowerFailures": 4,
         "numberOfLongPowerFailures": 2,
@@ -288,6 +292,10 @@ The Belgian smart meter standard is based on the Dutch DSMR 5.X P1 standard.
 The official documentation can be found here: <https://maakjemeterslim.be/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdUlCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--98ba80caddbb098bbc44b81e9be0a92a6637bef3/e-MUCS_P1_Ed_1_4.pdf?disposition=attachment>
 
 ## Changelog
+
+2.0.3
+
+* Small fix to make data structure consistent for eMUCs fuseThreshold
 
 2.0.2
 
