@@ -6,7 +6,7 @@ Node.js package for reading and parsing data from the P1 port of a Smart Meter. 
 
 ## How to use
 
-The serial connection is automatically opened on initiating the P1-Reader. Use the `reading` event to start receiving data, which should come in every 10 seconds (for DSMR <5.0) or every second (for DSMR >=5.0 and eMUCs).
+The serial connection is automatically opened on initiating the P1-Reader. Use the `reading` event to start receiving data, which should come in every 10 seconds (for DSMR <5.0) or every second (for DSMR >=5.0 and eMUCs 1.4).
 
 ```javascript
 const P1Reader = require('p1-reader');
