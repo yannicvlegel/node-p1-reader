@@ -80,7 +80,22 @@ The table below is based on the [extensive analysis already done by Domoticx](ht
 
 ### Known configurations per Belgian eMUCs Smart Meter Type
 
-No overview yet available. Please create a Pull Request if you find one or have a known working config yourself.
+Please create a Pull Request if you find one or have a known working config yourself.
+| Brand              | Model | DSMR version | Header  | Baud Rate | Parity | Data Bits | Stop Bits |
+| ------------------ | ----- | -------------| ------- | --------- | ------ | --------- | --------- |
+| Siconia (Sagemcom) | S211  | 5.0          | /FLU5   | 115200    | None   | 8         | 1         |
+
+Warning, for personal data protection reasons, it seems that Belgian operators of gas and electricity distribution networks *disable by default* the P1 port.
+You have to ask them to activate the P1 to be able to read anything. Your Serial to USB adapter migh not be broken after all.
+
+Depending on your local operator, this activation might need a special fee.
+| Locality | Operator | Fee | How to activate |
+| -------- | ---------| --- | --------------- |
+| Flanders | Fluvius | free (to be verified) | On their website, in your personal account. See [here](https://www.fluvius.be) or [this step-by-step procedure](https://www.engie.be/nl/support/faq/dienst-na-verkoop/boxx/inzicht-in-verbruik-en-meter/hoe-activeer-ik-de-p1-poort-slimme-meter-fluvius/) made by Engie.
+| Wallonia | RESA | 46,39€ VAT included (VAT might be reduced to 6% under conditions) | Submit [this form](https://www.resa.be/wp-content/uploads/2020/02/20200210_PP1_Formulaire_NEW.pdf) (completely hidden from their website, thanks Google for crawling it!). This operation is done remotely by the operator. The whole process takes usually 2 or 3 open days (purchase order issuance, payment and actual remote work) |
+| Wallonia | ORES | 25€ (to be verified) | Contact them (to be described) |
+| Brussels | Sibelga | ? | ? |
+
 
 ## Events
 
