@@ -1602,7 +1602,7 @@ describe("parsePacket", function() {
         expect(parsedPacket).toEqual(expectedOutputObject);
     });
  
-    // Test demands code seen on belgian meters (peak tariff)
+    // Test demands code seen on Belgian meters (peak tariff)
     it("should be able to parse a complete DSMR5.0 packet with demands", function() {
         const packet = "/FLU5\253770234_A\r\n" +
         "\r\n" +
