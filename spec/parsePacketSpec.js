@@ -127,6 +127,34 @@ describe("parsePacket", function() {
                             }
                         }
                     }
+                },
+                demand: {
+                    positiveActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    negativeActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    maximumDemandLastMonths: {
+                        count: null,
+                        months: null
+                    }
                 }
             },
             gas: {
@@ -320,6 +348,34 @@ describe("parsePacket", function() {
                             }
                         }
                     }
+                },
+                demand: {
+                    positiveActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    negativeActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    maximumDemandLastMonths: {
+                        count: null,
+                        months: null
+                    }
                 }
             },
             "gas": {
@@ -497,6 +553,34 @@ describe("parsePacket", function() {
                             }
                         }
                     }
+                },
+                demand: {
+                    positiveActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    negativeActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    maximumDemandLastMonths: {
+                        count: null,
+                        months: null
+                    }
                 }
             },
             "gas": {
@@ -648,6 +732,34 @@ describe("parsePacket", function() {
                                 "unit": null
                             }
                         }
+                    }
+                },
+                demand: {
+                    positiveActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    negativeActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    maximumDemandLastMonths: {
+                        count: null,
+                        months: null
                     }
                 }
             },
@@ -801,6 +913,34 @@ describe("parsePacket", function() {
                                 "unit": null
                             }
                         }
+                    }
+                },
+                demand: {
+                    positiveActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    negativeActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    maximumDemandLastMonths: {
+                        count: null,
+                        months: null
                     }
                 }
             },
@@ -991,6 +1131,34 @@ describe("parsePacket", function() {
                             }
                         }
                     }
+                },
+                demand: {
+                    positiveActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    negativeActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    maximumDemandLastMonths: {
+                        count: null,
+                        months: null
+                    }
                 }
             },
             "gas": {
@@ -1177,6 +1345,34 @@ describe("parsePacket", function() {
                             }
                         }
                     }
+                },
+                demand: {
+                    positiveActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    negativeActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    maximumDemandLastMonths: {
+                        count: null,
+                        months: null
+                    }
                 }
             },
             "gas": {
@@ -1362,6 +1558,34 @@ describe("parsePacket", function() {
                                 "unit": "kW"
                             }
                         }
+                    }
+                },
+                demand: {
+                    positiveActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    negativeActiveDemand: {
+                        currentDemandPeriod: {
+                            reading: null,
+                            unit: null
+                        },
+                        maximumDemand: {
+                            timestamp: null,
+                            reading: null,
+                            unit: null
+                        }
+                    },
+                    maximumDemandLastMonths: {
+                        count: null,
+                        months: null
                     }
                 }
             },
