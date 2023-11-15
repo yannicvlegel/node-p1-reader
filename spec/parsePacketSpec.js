@@ -1780,19 +1780,19 @@ describe("parsePacket", function() {
                 demand: {
                     positiveActiveDemand: {
                         currentDemandPeriod: {
-                            reading: null,
+                            reading: 0.242,
                             unit: "kW"
                         },
                         maximumDemand: {
-                            timestamp: null,
-                            reading: null,
+                            timestamp: '2023-11-07T17:45:00.000Z',
+                            reading: 7.677,
                             unit: "kW"
                         }
                     },
                     negativeActiveDemand: {
                         currentDemandPeriod: {
                             reading: null,
-                            unit: "kW"
+                            unit: null
                         },
                         maximumDemand: {
                             timestamp: null,
