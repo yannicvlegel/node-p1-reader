@@ -1802,7 +1802,68 @@ describe("parsePacket", function() {
                     },
                     maximumDemandLastMonths: {
                         count: 10,
-                        months: null
+                        months: [
+                            {
+                                "month": "2023-02-01T00:00:00.000Z",
+                                "timestamp": "2023-01-29T18:15:00.000Z",
+                                "value": 5.38,
+                                "unit": "kW"
+                            },
+                            {
+                                "month": "2023-03-01T00:00:00.000Z",
+                                "timestamp": "2023-02-10T18:30:00.000Z",
+                                "value": 5.769,
+                                "unit": "kW"
+                            },
+                            {
+                                "month": "2023-04-01T00:00:00.000Z",
+                                "timestamp": "2023-03-12T18:00:00.000Z",
+                                "value": 6.309,
+                                "unit": "kW"
+                            },
+                            {
+                                "month": "2023-05-01T00:00:00.000Z",
+                                "timestamp": "2023-04-10T18:00:00.000Z",
+                                "value": 5.31,
+                                "unit": "kW"
+                            },
+                            {
+                                "month": "2023-06-01T00:00:00.000Z",
+                                "timestamp": "2023-05-06T18:45:00.000Z",
+                                "value": 4.369,
+                                "unit": "kW"
+                            },
+                            {
+                                "month": "2023-07-01T00:00:00.000Z",
+                                "timestamp": "2023-06-10T07:15:00.000Z",
+                                "value": 5.253,
+                                "unit": "kW"
+                            },
+                            {
+                                "month": "2023-08-01T00:00:00.000Z",
+                                "timestamp": "2023-07-27T00:30:00.000Z",
+                                "value": 4.364,
+                                "unit": "kW"
+                            },
+                            {
+                                "month": "2023-09-01T00:00:00.000Z",
+                                "timestamp": "2023-08-24T17:30:00.000Z",
+                                "value": 4.689,
+                                "unit": "kW"
+                            },
+                            {
+                                "month": "2023-10-01T00:00:00.000Z",
+                                "timestamp": "2023-09-23T12:15:00.000Z",
+                                "value": 4.278,
+                                "unit": "kW"
+                            },
+                            {
+                                "month": "2023-11-01T00:00:00.000Z",
+                                "timestamp": "2023-10-14T12:15:00.000Z",
+                                "value": 5.416,
+                                "unit": "kW"
+                            }
+                        ]
                     }
                 }
             },
