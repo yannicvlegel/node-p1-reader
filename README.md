@@ -308,6 +308,10 @@ The official documentation can be found here: <https://maakjemeterslim.be/rails/
 
 ## Changelog
 
+2.0.5
+
+* Added support for (Belgian specific) Obis codes for active demand (thanks to @JeromeGillard)
+
 2.0.4
 
 * Fixing Jasmine test cases
