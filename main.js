@@ -1,6 +1,6 @@
 const EventEmitter = require('events');
 const util = require('util');
-let SerialPort = require('serialport');
+let { SerialPort } = require('serialport');
 
 let connectedToSmartMeter = false;
 let constructor;
@@ -42,7 +42,8 @@ function _setupSerialConnection(port, baudRate, parity, dataBits, stopBits) {
     debug.log('Trying to connect to Smart Meter via port: ' + port + ' (BaudRate: ' + baudRate + ', Parity: ' + parity + ', Databits: ' + dataBits + ', Stopbits: ' + stopBits + ')');
 
     // Open serial port connection
-    const sp = new SerialPort(port, {
+    const sp = new SerialPort({
+        path: port,
         baudRate: baudRate,
         parity: parity,
         dataBits: dataBits,
