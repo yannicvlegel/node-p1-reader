@@ -1,6 +1,7 @@
 const EventEmitter = require('events');
 const util = require('util');
 let { SerialPort } = require('serialport');
+const { DelimiterParser } = require('@serialport/parser-delimiter');
 
 let connectedToSmartMeter = false;
 let constructor;
@@ -57,43 +58,42 @@ function _setupSerialConnection(port, baudRate, parity, dataBits, stopBits) {
         }
     }, 11000); // Set time for 11 seconds, since we should receive at least one message every 10 seconds from the Smart Meter
 
-    let received = '';
+    const parser = sp.pipe(new DelimiterParser({ 
+        delimiter: config.stopCharacter
+    }));    
+
+    parser.on('data', data => {
+        const received = data.toString();
+
+        const startCharPos = received.indexOf(config.startCharacter);
+        if (startCharPos === -1) {
+            debug.log('no message start found in', received);
+            return;
+        }
+        const packet = received.substring(startCharPos);
+
+        const parsedPacket = parsePacket(packet);
+        // Emit a 'connected' event when we have actually successfully parsed our first data                
+        if (!connectedToSmartMeter && parsedPacket.timestamp !== null) {
+            debug.log('Connection with Smart Meter established');
+            constructor.emit('connected');
+            connectedToSmartMeter = true;
+            clearTimeout(connectionTimeout);
+        }
+
+        debug.writeToLogFile(packet, parsedPacket);
+
+        constructor.emit('reading-raw', packet);
+
+        if (parsedPacket.timestamp !== null) {
+            constructor.emit('reading', parsedPacket);
+        } else {
+            constructor.emit('error', 'Invalid reading');
+        }
+    });
 
     sp.on('open', () => {
         debug.log('Serialport connection opened, trying to receive data from the Smart Meter...');
-
-        sp.on('data', data => {
-            received += data.toString();
-
-            const startCharPos = received.indexOf(config.startCharacter);
-            const endCharPos = received.indexOf(config.stopCharacter);
-
-            // Package is complete if the start- and stop character are received
-            if (startCharPos >= 0 && endCharPos >= 0) {
-                const packet = received.substr(startCharPos, endCharPos - startCharPos);
-                const parsedPacket = parsePacket(packet);
-
-                received = '';
-
-                // Emit a 'connected' event when we have actually successfully parsed our first data
-                if (!connectedToSmartMeter && parsedPacket.timestamp !== null) {
-                    debug.log('Connection with Smart Meter established');
-                    constructor.emit('connected');
-                    connectedToSmartMeter = true;
-                    clearTimeout(connectionTimeout);
-                }
-
-                debug.writeToLogFile(packet, parsedPacket);
-
-                constructor.emit('reading-raw', packet);
-
-                if (parsedPacket.timestamp !== null) {
-                    constructor.emit('reading', parsedPacket);
-                } else {
-                    constructor.emit('error', 'Invalid reading');
-                }
-            }
-        });
     });
 
     sp.on('error', (error) => {
@@ -105,4 +105,9 @@ function _setupSerialConnection(port, baudRate, parity, dataBits, stopBits) {
         debug.log('Connection closed');
         constructor.emit('close');
     });
+
+    constructor.close = (cb) => {
+        debug.log('Closing connection');
+        sp.close(cb);
+    };
 }
