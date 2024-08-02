@@ -3,7 +3,7 @@ const fs = require('fs');
 
 // Set the serialport configuration for your specific type of Smart Meter, look at the README for more details
 let config = {
-    port: '/dev/ttyUSB0',
+    port: 'COM6',//'/dev/ttyUSB0',
     baudRate: 115200,
     parity: "none",
     dataBits: 8,
@@ -33,7 +33,7 @@ p1Reader.on('connected', () => {
 });
 
 p1Reader.on('reading', data => {
-    console.log('[My Example App]: Reading received via p1-reader, we are currently consuming ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
+    console.log('[My Example App]: '+  data.timestamp + ' : Reading received via p1-reader, we are currently consuming ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
 
     // Write electricity totals and actual value to CSV
     const csvOutput = '' +
@@ -52,7 +52,7 @@ p1Reader.on('reading', data => {
 
 p1Reader.on('reading-raw', data => {
     // If you are interested in viewing the unparsed raw data that was received at the serial port uncomment the line below
-    // console.log(data);
+    console.log(data);
 });
 
 p1Reader.on('error', error => {
